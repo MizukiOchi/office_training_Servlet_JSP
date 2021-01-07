@@ -27,7 +27,7 @@ public class InputBirthday extends HttpServlet {
 		out.println("<bady>");
 		//			out.println("<h2>");
 		//			out.println("<p>birthday画面からリンク</p>");
-		out.println("aaaaaaaa");
+		out.println("aaaaaaaaaaaa8888");
 		out.println("</body>");
 		out.println("</html>");
 	}

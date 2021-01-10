@@ -26,8 +26,16 @@ public class InputBirthday extends HttpServlet {
 		out.println("</head>");
 		out.println("<bady>");
 		out.println("<h3>誕生日を入力してください。</h3>");
-		out.println();
+		out.println("<form action=\"/office_training_Servlet_JSP/ChangeToResults\" method=\"post\">");
+		out.println("<input class=\"InputBirthday\" type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\">");
+		out.println("<input type=\"submit\" value=\"占う\"/>");
+		out.println("<form>");
 		out.println("</body>");
 		out.println("</html>");
 	}
+
 }
+
+
+
+

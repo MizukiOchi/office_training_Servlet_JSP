@@ -1,8 +1,6 @@
 package Servlet;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -25,15 +23,25 @@ import List.CSVReader;
  *
  * @author m_ochi
  */
+
+
+
 @WebServlet("/ChangeToResults")
 public class ChangeToResults extends HttpServlet {
+	public static String errorMessage = null;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		/**
 		 * ①Servlet画面で入力した誕生日を取得する
 		 */
-
-		String birthday = checkBirthday();
+		String birthday = request.getParameter("birthday");
+		boolean checkBirthday = checkBirthday(birthday);
+		//checkBirthdayがfalseの時、エラー画面に遷移する
+		if(checkBirthday==false) {
+		request.setAttribute("birthday", birthday);
+		request.setAttribute("errorMessage", errorMessage);
+		request.getRequestDispatcher("/InputBirthdayError").forward(request, response);
+		}
 
 		/**
 		 * ②今日の日付を取得する
@@ -109,14 +117,8 @@ public class ChangeToResults extends HttpServlet {
 	 *
 	 * @return sDate
 	 */
-	public static String checkBirthday() {
-		String birthday = "";
-		while (true) {
-			try {
-				// ●テキストファイルを読み込むためための処理。
-				BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-				birthday = reader.readLine(); // 文字を入力するためのメソッドをbirthdayに代入。
-
+	public static boolean checkBirthday(String birthday) {
+		boolean checkBirthday = true;
 				/**
 				 * ①入力チェックをする。
 				 * １、入力された日付が８桁以外の場合は、エラーメッセージを出力
@@ -126,8 +128,9 @@ public class ChangeToResults extends HttpServlet {
 				// ８桁以外が入力された場合
 				// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
 				if (birthday.length() != 8) {
+					checkBirthday = false;
+					errorMessage = "例の通り8桁を入力してください";
 					System.out.println("例の通り8桁を入力してください。");
-					continue;
 				}
 
 				// ①ー２、正しい年月日かどうかをチェックする。
@@ -138,17 +141,11 @@ public class ChangeToResults extends HttpServlet {
 				format.setLenient(false); // Lenient(寛大)に処理を行うか聞かれているため、falseを入力する。
 				try {
 					format.parse(birthday);
-					break; // ループを抜ける
 				} catch (Exception e) {
+					checkBirthday = false;
 					System.out.println("正しい日付を入力してください。");
-					continue;
 				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			break;
-		}
-		return birthday;
+		return checkBirthday;
 	}
 
 	/**

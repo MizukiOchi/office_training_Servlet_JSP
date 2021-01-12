@@ -32,6 +32,7 @@ public class ResultsDao {
 			 */
 			// ●変数sqlに条件検索できるようにSELECT文を代入
 			String sql = "SELECT results_date, omikuji_id, birthday, changer, update_date, author,create_date FROM results WHERE results_date = ? AND birthday = ?;";
+			System.out.println(sql);
 			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
 			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			preparedStatement.setDate(1, results_date); // ②ー１

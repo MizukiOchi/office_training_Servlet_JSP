@@ -14,11 +14,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/InputBirthday")
 public class InputBirthday extends HttpServlet {
+	String messageOfDateCheck;
+    String messageOfLengthCheck;
 	protected void doGet(HttpServletRequest request, HttpServletResponse respose)
 			throws ServletException, IOException {
 		respose.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = respose.getWriter();
+//		String date = request.getParameter("date");
+//        String length = request.getParameter("length");
 
+		PrintWriter out = respose.getWriter();
 		out.println("<html>");
 		out.println("<head>");
 		out.println("<meta charset=\"UTF-8\">");
@@ -33,7 +37,6 @@ public class InputBirthday extends HttpServlet {
 		out.println("</body>");
 		out.println("</html>");
 	}
-
 }
 
 

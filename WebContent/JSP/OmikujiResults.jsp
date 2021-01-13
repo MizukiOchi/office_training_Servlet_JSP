@@ -10,6 +10,12 @@
 </head>
 <body>
 	<div class="fortune">
+<%OmikujiBean omikuji = (OmikujiBean)request.getAttribute("results"); %>
+	<p>あなたの今日の運勢は、</p>
+	<%= omikuji.getFortune_name() %>です。<br>
+	願い事：<%= omikuji.getWish() %><br>
+	商い：<%= omikuji.getBusiness() %><br>
+	学問：<%= omikuji.getStudy()%><br>
 
 
 		<form action="/office_training_Servlet_JSP/InputBirthday" method="get">

@@ -28,19 +28,28 @@ import List.CSVReader;
 
 @WebServlet("/ChangeToResults")
 public class ChangeToResults extends HttpServlet {
-	public static String errorMessage = null;
+	public static String errorMessage1 = "";
+	public static String errorMessage2 = "";
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		/**
 		 * ①Servlet画面で入力した誕生日を取得する
 		 */
+		String errorNum = "";
+		//HTML（サーブレット）から入力されたパラメータの値を取得
 		String birthday = request.getParameter("birthday");
-		boolean checkBirthday = checkBirthday(birthday);
-		//checkBirthdayがfalseの時、エラー画面に遷移する
-		if(checkBirthday==false) {
-		request.setAttribute("birthday", birthday);
-		request.setAttribute("errorMessage", errorMessage);
-		request.getRequestDispatcher("/InputBirthdayError").forward(request, response);
+		//checkBirthday（入力チェックするメソッドで）がfalseの時、InputBirthdayクラスに戻ってエラーを画面に出す
+		String checkBirthday = checkBirthday(birthday);
+		if(checkBirthday == "1") {
+			errorMessage1 = "例の通り８桁を入力してください。";
+			request.setAttribute("errorMessage1", errorMessage1);
+			request.getRequestDispatcher("/InputBirthday").forward(request, response);
+			return;
+		}else if(checkBirthday == "2") {
+			errorMessage2 = "正しい日付を入力してください。";
+		request.setAttribute("errorMessage2", errorMessage2);
+		request.getRequestDispatcher("/InputBirthday").forward(request, response);
+		return;
 		}
 
 		/**
@@ -108,7 +117,9 @@ public class ChangeToResults extends HttpServlet {
 		 */
 		// omikuji_idを条件にomikujiテーブルからデータを取得
 		OmikujiBean oi = OmikujiDao.selectByOmikuji(omikuji_id);
+//		System.out.println(oi.getFortune_name());
 		//jspで画面に出力する。
+		request.setAttribute("results",oi);
 		request.getRequestDispatcher("/JSP/OmikujiResults.jsp").forward(request, response);
 }
 
@@ -117,8 +128,10 @@ public class ChangeToResults extends HttpServlet {
 	 *
 	 * @return sDate
 	 */
-	public static boolean checkBirthday(String birthday) {
-		boolean checkBirthday = true;
+	public static String checkBirthday(String birthday) {
+		String checkBirthday = null;
+//		String errorMessage1 = "";
+//		String errorMessage2 = "";
 				/**
 				 * ①入力チェックをする。
 				 * １、入力された日付が８桁以外の場合は、エラーメッセージを出力
@@ -128,9 +141,8 @@ public class ChangeToResults extends HttpServlet {
 				// ８桁以外が入力された場合
 				// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
 				if (birthday.length() != 8) {
-					checkBirthday = false;
-					errorMessage = "例の通り8桁を入力してください";
-					System.out.println("例の通り8桁を入力してください。");
+					 checkBirthday = "1";
+					 return checkBirthday;
 				}
 
 				// ①ー２、正しい年月日かどうかをチェックする。
@@ -142,31 +154,30 @@ public class ChangeToResults extends HttpServlet {
 				try {
 					format.parse(birthday);
 				} catch (Exception e) {
-					checkBirthday = false;
-					System.out.println("正しい日付を入力してください。");
+					checkBirthday = "2";
 				}
 		return checkBirthday;
 	}
 
-	/**
-	 * ❸コンソールに出力するためのメソッド
-	 *
-	 * @param sd
-	 */
-	public static void showDisplay(OmikujiBean sd) {
-		// 出力用クラス
-		StringBuilder sb = new StringBuilder();
-		sb.append("今日の運勢は");
-		sb.append(sd.getFortune_name());
-		sb.append("です");
-		sb.append("\n 願い事：");
-		sb.append(sd.getWish());
-		sb.append("\n 商い：");
-		sb.append(sd.getBusiness());
-		sb.append("\n 学問：");
-		sb.append(sd.getStudy());
-		System.out.println(sb.toString());
-	}
+//	/**
+//	 * ❸コンソールに出力するためのメソッド
+//	 *
+//	 * @param sd
+//	 */
+//	public static void showDisplay(OmikujiBean sd) {
+//		// 出力用クラス
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("今日の運勢は");
+//		sb.append(sd.getFortune_name());
+//		sb.append("です");
+//		sb.append("\n 願い事：");
+//		sb.append(sd.getWish());
+//		sb.append("\n 商い：");
+//		sb.append(sd.getBusiness());
+//		sb.append("\n 学問：");
+//		sb.append(sd.getStudy());
+//		System.out.println(sb.toString());
+//	}
 
 	/**
 	 * ●utilクラスのDate型からsqlクラスのDate型に変換するメソッド

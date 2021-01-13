@@ -14,15 +14,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/InputBirthday")
 public class InputBirthday extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse respose)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		respose.setContentType("text/html; charset=UTF-8");
+		doPost(request, response);
+	}
 
-//		// セッション切れでログイン画面へ遷移
-//        HttpSession session = request.getSession();
-//        String errorMessage = (String)session.getAttribute("birthday");
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		response.setContentType("text/html; charset=UTF-8");
+		String errorMessage1 = (String)request.getAttribute("errorMessage1");
+		String errorMessage2 = (String)request.getAttribute("errorMessage2");
 
-		PrintWriter out = respose.getWriter();
+		PrintWriter out = response.getWriter();
 		out.println("<html>");
 		out.println("<head>");
 		out.println("<meta charset=\"UTF-8\">");
@@ -30,8 +32,16 @@ public class InputBirthday extends HttpServlet {
 		out.println("</head>");
 		out.println("<bady>");
 		out.println("<h3>誕生日を入力してください。</h3>");
+		// もしerrorMessageが入っていたらエラ〜メッセージを出力する
+		if (errorMessage1 != null) {
+			out.println("<p>" + errorMessage1 + "</p>");
+		}
+		if (errorMessage2 != null) {
+			out.println("<p>" + errorMessage2 + "</p>");
+		}
 		out.println("<form action=\"/office_training_Servlet_JSP/ChangeToResults\" method=\"post\">");
-		out.println("<input class=\"InputBirthday\" type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\">");
+		out.println(
+				"<input class=\"InputBirthday\" type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\">");
 		out.println("<input type=\"submit\" value=\"占う\"/>");
 		out.println("<form>");
 
@@ -39,7 +49,3 @@ public class InputBirthday extends HttpServlet {
 		out.println("</html>");
 	}
 }
-
-
-
-

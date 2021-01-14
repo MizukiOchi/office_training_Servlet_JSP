@@ -18,14 +18,11 @@ import DAO.ResultsDao;
 import List.CSVReader;
 
 /**
- * ●サーブレットとJSPの仲介メソッド(メインメソッド？)
+ * ●Servlet/JSP間の処理実装(メインメソッド)
  * Servlet implementation class ChangeToResults
  *
  * @author m_ochi
  */
-
-
-
 @WebServlet("/ChangeToResults")
 public class ChangeToResults extends HttpServlet {
 	public static String errorMessage1 = "";
@@ -40,12 +37,12 @@ public class ChangeToResults extends HttpServlet {
 		String birthday = request.getParameter("birthday");
 		//checkBirthday（入力チェックするメソッドで）がfalseの時、InputBirthdayクラスに戻ってエラーを画面に出す
 		String checkBirthday = checkBirthday(birthday);
-		if(checkBirthday == "1") {
+		if(checkBirthday == nonCorrectLength) {
 			errorMessage1 = "例の通り８桁を入力してください。";
 			request.setAttribute("errorMessage1", errorMessage1);
 			request.getRequestDispatcher("/InputBirthday").forward(request, response);
 			return;
-		}else if(checkBirthday == "2") {
+		}else if(checkBirthday == nonCorrectDate) {
 			errorMessage2 = "正しい日付を入力してください。";
 		request.setAttribute("errorMessage2", errorMessage2);
 		request.getRequestDispatcher("/InputBirthday").forward(request, response);
@@ -120,7 +117,7 @@ public class ChangeToResults extends HttpServlet {
 //		System.out.println(oi.getFortune_name());
 		//jspで画面に出力する。
 		request.setAttribute("results",oi);
-		request.getRequestDispatcher("/JSP/OmikujiResults.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/OmikujiResults.jsp").forward(request, response);
 }
 
 	/**
@@ -128,10 +125,11 @@ public class ChangeToResults extends HttpServlet {
 	 *
 	 * @return sDate
 	 */
+//	定数を使用して何の値かを分かりやすくする↓
+	public static final String nonCorrectLength = "1";
+	public static final String nonCorrectDate = "2";
 	public static String checkBirthday(String birthday) {
 		String checkBirthday = null;
-//		String errorMessage1 = "";
-//		String errorMessage2 = "";
 				/**
 				 * ①入力チェックをする。
 				 * １、入力された日付が８桁以外の場合は、エラーメッセージを出力
@@ -141,7 +139,7 @@ public class ChangeToResults extends HttpServlet {
 				// ８桁以外が入力された場合
 				// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
 				if (birthday.length() != 8) {
-					 checkBirthday = "1";
+					 checkBirthday = nonCorrectLength;
 					 return checkBirthday;
 				}
 
@@ -154,30 +152,11 @@ public class ChangeToResults extends HttpServlet {
 				try {
 					format.parse(birthday);
 				} catch (Exception e) {
-					checkBirthday = "2";
+					checkBirthday = nonCorrectDate;
 				}
 		return checkBirthday;
 	}
 
-//	/**
-//	 * ❸コンソールに出力するためのメソッド
-//	 *
-//	 * @param sd
-//	 */
-//	public static void showDisplay(OmikujiBean sd) {
-//		// 出力用クラス
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("今日の運勢は");
-//		sb.append(sd.getFortune_name());
-//		sb.append("です");
-//		sb.append("\n 願い事：");
-//		sb.append(sd.getWish());
-//		sb.append("\n 商い：");
-//		sb.append(sd.getBusiness());
-//		sb.append("\n 学問：");
-//		sb.append(sd.getStudy());
-//		System.out.println(sb.toString());
-//	}
 
 	/**
 	 * ●utilクラスのDate型からsqlクラスのDate型に変換するメソッド

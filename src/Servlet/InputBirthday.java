@@ -75,7 +75,7 @@ public class InputBirthday extends HttpServlet {
 		out.println("<form>");
 		out.println("<br>");
 		//画像の挿入
-		out.println("<img src=\"img/panda.jpg\">");
+		out.println("<img src=\"/img/panda.jpg\">");
 		out.println("</body>");
 		out.println("</html>");
 	}

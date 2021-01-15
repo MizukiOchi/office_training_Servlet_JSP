@@ -47,14 +47,13 @@ public class ChangeToResults extends HttpServlet {
 				ErrorMessageList.remove(i);
 			}
 		}
-		/**checkBirthday()メソッドは
-		 *
-		 */
+		//エラーメッセージがある場合に処理をする
 		if (Non_Correct_Length.equals(checkBirthday.get(0))){
 			ErrorMessageList.add("例の通り８桁を入力してください。");
 		} else if (Non_Correct_Date .equals(checkBirthday.get(1))){
 			ErrorMessageList.add("正しい日付を入力してください。");
 		}
+		//mapにエラーががあれば、InputBirthdayに画面遷移とエラーメッセージを引き渡す
 		if (!(ErrorMessageList == null || ErrorMessageList.size() == 0)){
 			request.setAttribute("ErrorMessageList", ErrorMessageList);
 			request.getRequestDispatcher("/InputBirthday").forward(request, response);
@@ -153,7 +152,6 @@ public class ChangeToResults extends HttpServlet {
 		// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
 		if (birthday.length() != 8) {
 			checkBirthday.put(0,Non_Correct_Length);
-			System.out.println(checkBirthday.get(0));
 		}
 
 		// ①ー２、正しい年月日かどうかをチェックする。

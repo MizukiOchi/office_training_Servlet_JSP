@@ -2,7 +2,11 @@ package Servlet;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.ServletException;
@@ -25,28 +29,35 @@ import List.CSVReader;
  */
 @WebServlet("/ChangeToResults")
 public class ChangeToResults extends HttpServlet {
-	public static String errorMessage1 = "";
-	public static String errorMessage2 = "";
+	//errorMessageを入れるためのリストの箱を作成
+	List<String> ErrorMessageList = new ArrayList<String>();
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		/**
 		 * ①Servlet画面で入力した誕生日を取得する
 		 */
-		String errorNum = "";
 		//HTML（サーブレット）から入力されたパラメータの値を取得
 		String birthday = request.getParameter("birthday");
-		//checkBirthday（入力チェックするメソッドで）がfalseの時、InputBirthdayクラスに戻ってエラーを画面に出す
-		String checkBirthday = checkBirthday(birthday);
-		if(checkBirthday == nonCorrectLength) {
-			errorMessage1 = "例の通り８桁を入力してください。";
-			request.setAttribute("errorMessage1", errorMessage1);
+		//checkBirthday（入力チェックするメソッドで）対象の値が帰ってきた時は、InputBirthdayクラスに戻ってエラーを画面に出す
+		Map<Integer,String> checkBirthday = checkBirthday(birthday);
+		//listの初期化
+		if (ErrorMessageList != null) {
+			for (int i = 0; i < ErrorMessageList.size(); i++) {
+				ErrorMessageList.remove(i);
+			}
+		}
+		/**checkBirthday()メソッドは
+		 *
+		 */
+		if (Non_Correct_Length.equals(checkBirthday.get(0))){
+			ErrorMessageList.add("例の通り８桁を入力してください。");
+		} else if (Non_Correct_Date .equals(checkBirthday.get(1))){
+			ErrorMessageList.add("正しい日付を入力してください。");
+		}
+		if (!(ErrorMessageList == null || ErrorMessageList.size() == 0)){
+			request.setAttribute("ErrorMessageList", ErrorMessageList);
 			request.getRequestDispatcher("/InputBirthday").forward(request, response);
-			return;
-		}else if(checkBirthday == nonCorrectDate) {
-			errorMessage2 = "正しい日付を入力してください。";
-		request.setAttribute("errorMessage2", errorMessage2);
-		request.getRequestDispatcher("/InputBirthday").forward(request, response);
-		return;
 		}
 
 		/**
@@ -114,49 +125,50 @@ public class ChangeToResults extends HttpServlet {
 		 */
 		// omikuji_idを条件にomikujiテーブルからデータを取得
 		OmikujiBean oi = OmikujiDao.selectByOmikuji(omikuji_id);
-//		System.out.println(oi.getFortune_name());
+		//		System.out.println(oi.getFortune_name());
 		//jspで画面に出力する。
-		request.setAttribute("results",oi);
+		request.setAttribute("results", oi);
 		request.getRequestDispatcher("/jsp/OmikujiResults.jsp").forward(request, response);
-}
+	}
 
 	/**
 	 * ❷誕生日を求めるメソッド。コンソールに出力できるように設定。
 	 *
 	 * @return sDate
 	 */
-//	定数を使用して何の値かを分かりやすくする↓
-	public static final String nonCorrectLength = "1";
-	public static final String nonCorrectDate = "2";
-	public static String checkBirthday(String birthday) {
-		String checkBirthday = null;
-				/**
-				 * ①入力チェックをする。
-				 * １、入力された日付が８桁以外の場合は、エラーメッセージを出力
-				 * ２、正しい年月日かどうか入力チェックする。
-				 */
-				// ①ー１、入力されたのが８桁かどうかをチェックする。
-				// ８桁以外が入力された場合
-				// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
-				if (birthday.length() != 8) {
-					 checkBirthday = nonCorrectLength;
-					 return checkBirthday;
-				}
+	//	定数を使用して何の値かを分かりやすくする↓
+	public static final String Non_Correct_Length = "0";
+	public static final String Non_Correct_Date = "1";
 
-				// ①ー２、正しい年月日かどうかをチェックする。
-				// 正しい年月日でない場合
-				// →"正しい日付を入力してください。"を出力して、誕生日の再入力を求める。
-				// ↓日付や時刻を厳密にチェック（厳密にテェック＝存在しない日付を指定された場合、Exception を発生させること。）
-				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-				format.setLenient(false); // Lenient(寛大)に処理を行うか聞かれているため、falseを入力する。
-				try {
-					format.parse(birthday);
-				} catch (Exception e) {
-					checkBirthday = nonCorrectDate;
-				}
+	public static Map<Integer,String> checkBirthday(String birthday) {
+		Map<Integer,String> checkBirthday = new HashMap<>();
+
+		/**
+		 * ①入力チェックをする。
+		 * １、入力された日付が８桁以外の場合は、エラーメッセージを出力
+		 * ２、正しい年月日かどうか入力チェックする。
+		 */
+		// ①ー１、入力されたのが８桁かどうかをチェックする。
+		// ８桁以外が入力された場合
+		// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
+		if (birthday.length() != 8) {
+			checkBirthday.put(0,Non_Correct_Length);
+			System.out.println(checkBirthday.get(0));
+		}
+
+		// ①ー２、正しい年月日かどうかをチェックする。
+		// 正しい年月日でない場合
+		// →"正しい日付を入力してください。"を出力して、誕生日の再入力を求める。
+		// ↓日付や時刻を厳密にチェック（厳密にテェック＝存在しない日付を指定された場合、Exception を発生させること。）
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+		format.setLenient(false); // Lenient(寛大)に処理を行うか聞かれているため、falseを入力する。
+		try {
+			format.parse(birthday);
+		} catch (Exception e) {
+			checkBirthday.put(1,Non_Correct_Date);
+		}
 		return checkBirthday;
 	}
-
 
 	/**
 	 * ●utilクラスのDate型からsqlクラスのDate型に変換するメソッド

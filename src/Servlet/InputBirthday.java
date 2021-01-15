@@ -2,6 +2,7 @@ package Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class InputBirthday1
+ * Servlet implementation class InputBirthday
  */
 @WebServlet("/InputBirthday")
 public class InputBirthday extends HttpServlet {
@@ -21,8 +22,9 @@ public class InputBirthday extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType("text/html; charset=UTF-8");
-		String errorMessage1 = (String)request.getAttribute("errorMessage1");
-		String errorMessage2 = (String)request.getAttribute("errorMessage2");
+//		List<String> ErrorMessageList = new ArrayList<String>();
+		//listで受け取って入っている分だけ回す（エラーが増えてもリクエストの処理を増やさなくて済む）
+		ArrayList<String> ErrorMessageList = (ArrayList<String>)request.getAttribute("ErrorMessageList");
 
 		/**htmlで記入する際は、PrintWriterクラスのgerWriter()メソッドを使用する*/
 		PrintWriter out = response.getWriter();
@@ -61,12 +63,11 @@ public class InputBirthday extends HttpServlet {
 		out.println("<bady>");
 		out.println("<h3>おみくじ</h3>");
 		out.println("<p class=\"explain\">Input Your Birthday Here↓</p>");
-		// もしerrorMessageが入っていたらエラ〜メッセージを出力する
-		if (errorMessage1 != null) {
-			out.println("<p class=\"errorMessage\">" + errorMessage1 + "</p>");
-		}
-		if (errorMessage2 != null) {
-			out.println("<p class=\"errorMessage\">" + errorMessage2 + "</p>");
+		// もしlistにerrorMessageが入っていたらエラーメッセージを全て出力する
+		if (ErrorMessageList != null) {
+			for(int i=0; i < ErrorMessageList.size(); i++) {
+			out.println("<p class=\"errorMessage\">" + ErrorMessageList.get(i) + "</p>");
+			}
 		}
 		//誕生日入力テキストと占うボタン
 		out.println("<form action=\"/office_training_Servlet_JSP/ChangeToResults\" method=\"post\">");

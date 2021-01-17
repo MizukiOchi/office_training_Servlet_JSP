@@ -17,7 +17,6 @@
 	商い：<%= omikuji.getBusiness() %><br>
 	学問：<%= omikuji.getStudy()%><br>
 
-
 		<form action="/office_training_Servlet_JSP/InputBirthday" method="get">
 			<input type="submit" value="もう一度占う" />
 		</form>

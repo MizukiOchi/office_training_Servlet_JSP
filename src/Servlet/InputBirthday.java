@@ -2,7 +2,7 @@ package Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +24,7 @@ public class InputBirthday extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 //		List<String> ErrorMessageList = new ArrayList<String>();
 		//listで受け取って入っている分だけ回す（エラーが増えてもリクエストの処理を増やさなくて済む）
-		ArrayList<String> ErrorMessageList = (ArrayList<String>)request.getAttribute("ErrorMessageList");
+		List<String> ErrorMessageList = (List<String>)request.getAttribute("ErrorMessageList");
 
 		/**htmlで記入する際は、PrintWriterクラスのgerWriter()メソッドを使用する*/
 		PrintWriter out = response.getWriter();
@@ -65,8 +65,8 @@ public class InputBirthday extends HttpServlet {
 		out.println("<p class=\"explain\">Input Your Birthday Here↓</p>");
 		// もしlistにerrorMessageが入っていたらエラーメッセージを全て出力する
 		if (ErrorMessageList != null) {
-			for(int i=0; i < ErrorMessageList.size(); i++) {
-			out.println("<p class=\"errorMessage\">" + ErrorMessageList.get(i) + "</p>");
+			for(String ErrorMessage : ErrorMessageList) {
+			out.println("<p class=\"errorMessage\">" + ErrorMessage + "</p>");
 			}
 		}
 		//誕生日入力テキストと占うボタン
@@ -76,7 +76,7 @@ public class InputBirthday extends HttpServlet {
 		out.println("<form>");
 		out.println("<br>");
 		//画像の挿入
-		out.println("<img src=\"/img/panda.jpg\">");
+		out.println("<img src=\"/office_training_Servlet_JSP/img/panda.jpg\">");
 		out.println("</body>");
 		out.println("</html>");
 	}

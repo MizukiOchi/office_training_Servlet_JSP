@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.ServletException;
@@ -29,9 +27,6 @@ import List.CSVReader;
  */
 @WebServlet("/ChangeToResults")
 public class ChangeToResults extends HttpServlet {
-	//errorMessageを入れるためのリストの箱を作成
-	List<String> ErrorMessageList = new ArrayList<String>();
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		/**
@@ -40,19 +35,8 @@ public class ChangeToResults extends HttpServlet {
 		//HTML（サーブレット）から入力されたパラメータの値を取得
 		String birthday = request.getParameter("birthday");
 		//checkBirthday（入力チェックするメソッドで）対象の値が帰ってきた時は、InputBirthdayクラスに戻ってエラーを画面に出す
-		Map<Integer,String> checkBirthday = checkBirthday(birthday);
-		//listの初期化
-		if (ErrorMessageList != null) {
-			for (int i = 0; i < ErrorMessageList.size(); i++) {
-				ErrorMessageList.remove(i);
-			}
-		}
-		//エラーメッセージがある場合に処理をする
-		if (Non_Correct_Length.equals(checkBirthday.get(0))){
-			ErrorMessageList.add("例の通り８桁を入力してください。");
-		} else if (Non_Correct_Date .equals(checkBirthday.get(1))){
-			ErrorMessageList.add("正しい日付を入力してください。");
-		}
+		List<String> ErrorMessageList = checkBirthday(birthday);
+
 		//mapにエラーががあれば、InputBirthdayに画面遷移とエラーメッセージを引き渡す
 		if (!(ErrorMessageList == null || ErrorMessageList.size() == 0)){
 			request.setAttribute("ErrorMessageList", ErrorMessageList);
@@ -135,12 +119,8 @@ public class ChangeToResults extends HttpServlet {
 	 *
 	 * @return sDate
 	 */
-	//	定数を使用して何の値かを分かりやすくする↓
-	public static final String Non_Correct_Length = "0";
-	public static final String Non_Correct_Date = "1";
-
-	public static Map<Integer,String> checkBirthday(String birthday) {
-		Map<Integer,String> checkBirthday = new HashMap<>();
+	public static List<String> checkBirthday(String birthday) {
+		List<String> checkBirthday = new ArrayList<String>();
 
 		/**
 		 * ①入力チェックをする。
@@ -151,7 +131,8 @@ public class ChangeToResults extends HttpServlet {
 		// ８桁以外が入力された場合
 		// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
 		if (birthday.length() != 8) {
-			checkBirthday.put(0,Non_Correct_Length);
+			//エラーメッセージがある場合に処理をする
+			checkBirthday.add("例の通り８桁を入力してください。");
 		}
 
 		// ①ー２、正しい年月日かどうかをチェックする。
@@ -163,8 +144,8 @@ public class ChangeToResults extends HttpServlet {
 		try {
 			format.parse(birthday);
 		} catch (Exception e) {
-			checkBirthday.put(1,Non_Correct_Date);
-		}
+			checkBirthday.add("正しい日付を入力してください。");
+			}
 		return checkBirthday;
 	}
 

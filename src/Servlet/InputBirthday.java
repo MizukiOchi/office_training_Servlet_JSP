@@ -49,22 +49,23 @@ public class InputBirthday extends HttpServlet {
 		/**InputImageの全体*/
 		//InputImage部分の設定
 		out.println(".InputImage{");
-		out.println("width: 50px;");
-		out.println("height: 50px;");
+		out.println("width: 500px;");
+		out.println("height: 500px;");
 		out.println("}");
 		// .balloon部分の設定
 		out.println(".balloon{");
 		out.println("position: relative;");
 		out.println("display: inline-block;");
 		out.println("margin-left: -900px;");
+		out.println("margin-top: -150px;");
 		out.println("margin-bottom: -300px;");
 		out.println("width: 300px;");
 		out.println("height: 150px;");
 		out.println("text-align: center;");
 		out.println("padding:50px 0;");
 		out.println("color: #FFF;");
-		out.println("font-family: ヒラギノ丸ゴ ProN W4;");
-		out.println("font-size: 15px;");
+		out.println("font-family: fantasy;");
+		out.println("font-size: 25px;");
 		out.println("font-weight: bold;");
 		out.println("background: #778899;");
 		out.println("border-radius: 50%;");
@@ -81,7 +82,6 @@ public class InputBirthday extends HttpServlet {
 		out.println("border-top: 15px solid #778899;");
 		out.println("z-index: 0;");
 		out.println("}");
-
 		out.println(".balloon p {");
 		out.println("margin: 0;");
 		out.println("padding: 0;");
@@ -92,12 +92,11 @@ public class InputBirthday extends HttpServlet {
 
 		// .panda画像の設定
 		out.println(".panda{");
-		out.println("margin-left: -800px;");
-		out.println("margin-top: 80px;");
-		out.println("width: -500px;");
-		out.println("height: -100px;");
+		out.println("margin-left: -900px;");
+		out.println("margin-top: 100px;");
+		out.println("width: 300px;");
+		out.println("height: 300px;");
 		out.println("}");
-
 		/**InputBirthdayの全体*/
 		// InputBirthday部分の設定
 		out.println(".InputBirthday{");
@@ -106,7 +105,7 @@ public class InputBirthday extends HttpServlet {
 		// .errorMessage部分の設定
 		out.println(".errorMessage{");
 		out.println("font-size: 14px;");
-		out.println("color: #FF4F50;");
+		out.println("color: #CD5C5C;");
 		out.println("}");
 		// .explain部分の設定
 		out.println(".explain{");
@@ -114,10 +113,6 @@ public class InputBirthday extends HttpServlet {
 		out.println("font-family: cursive;");
 		out.println("color: #708090;");
 		out.println("}");
-
-
-
-		// out.println("");
 		out.println(" </style>");
 		out.println("</head>");
 
@@ -139,7 +134,7 @@ public class InputBirthday extends HttpServlet {
 		// 誕生日入力テキストと占うボタン
 		out.println("<form action=\"/office_training_Servlet_JSP/ChangeToResults\" method=\"post\">");
 		out.println("<input type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\">");
-		out.println("<input type=\"submit\" value=\"占う\"/>");
+		out.println("<input class=\"button\" type=\"submit\" value=\"占う\"/>");
 		out.println("<form>");
 		out.println("</div>");
 
@@ -152,8 +147,8 @@ public class InputBirthday extends HttpServlet {
 		out.println("今日のあなたの運勢は...");
 		out.println("</div>");
 		// 画像の挿入
-		out.println("<div class=\"panda\">");
-		out.println("<img src=\"/office_training_Servlet_JSP/img/panda.jpg\">");
+		out.println("<div>");
+		out.println("<img class=\"panda\" src=\"/office_training_Servlet_JSP/img/panda.jpg\">");
 		out.println("</div>");
 		out.println("</div>");
 

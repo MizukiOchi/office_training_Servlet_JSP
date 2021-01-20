@@ -19,6 +19,7 @@ body {
 	color: #708090;
 	font-family: fantasy;
 	margin-top: 10px;
+	margin-left: -50px;
 }
 
 .title {
@@ -46,7 +47,7 @@ body {
 <%--画像--%>
 .panda{
 margin-left: 400px;
-margin-top: 100px;
+margin-top: 50px;
 width: 300px;
 height: 300px;
 }
@@ -102,7 +103,7 @@ a.btn--green.btn--cubic:hover {
 	border-bottom: 2px solid #0090bb;
 }
 .buotton{
-margin-top: 100px;
+margin-top: 30px;
 margin-left: 80px;
 }
 </style>

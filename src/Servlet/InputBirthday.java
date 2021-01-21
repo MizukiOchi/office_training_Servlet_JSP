@@ -25,6 +25,7 @@ public class InputBirthday extends HttpServlet {
 		// List<String> ErrorMessageList = new ArrayList<String>();
 		// listで受け取って入っている分だけ回す（エラーが増えてもリクエストの処理を増やさなくて済む）
 		List<String> ErrorMessageList = (List<String>) request.getAttribute("ErrorMessageList");
+		String birthday = (String)request.getAttribute("birthday");
 
 		/** htmlで記入する際は、PrintWriterクラスのgerWriter()メソッドを使用する */
 		PrintWriter out = response.getWriter();
@@ -133,7 +134,11 @@ public class InputBirthday extends HttpServlet {
 		}
 		// 誕生日入力テキストと占うボタン
 		out.println("<form action=\"/office_training_Servlet_JSP/ChangeToResults\" method=\"post\">");
-		out.println("<input type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\">");
+		if(birthday == null) {
+			birthday = "";
+		}
+
+		out.println("<input type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\" value=" + birthday + ">");
 		out.println("<input class=\"button\" type=\"submit\" value=\"占う\"/>");
 		out.println("<form>");
 		out.println("</div>");

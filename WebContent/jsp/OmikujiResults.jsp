@@ -124,14 +124,12 @@ margin-left: 80px;
 			学問：<%=omikuji.getStudy()%><br>
 		</div >
 		</div>
-
 		<img class="panda" src="img/panda.jpg">
-
-
 		<div class="buotton">
 		<a class="btn btn--green btn--emboss btn--cubic "
 			href="/office_training_Servlet_JSP/InputBirthday">RETURN</a>
+			<a href="/office_training_Servlet_JSP/halfMonthResults">半年の結果割合</a>
+			<a href="/office_training_Servlet_JSP/sameBirthday">半年の誕生日結果</a>
 	</div>
-
 </body>
 </html>

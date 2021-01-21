@@ -34,20 +34,20 @@ public class ChangeToResults extends HttpServlet {
 		 */
 		//HTML（サーブレット）から入力されたパラメータの値を取得
 		String birthday = request.getParameter("birthday");
+		request.setAttribute("birthday", birthday);
 		//checkBirthday（入力チェックするメソッドで）対象の値が帰ってきた時は、InputBirthdayクラスに戻ってエラーを画面に出す
 		List<String> ErrorMessageList = checkBirthday(birthday);
-
 		//mapにエラーががあれば、InputBirthdayに画面遷移とエラーメッセージを引き渡す
-		if (!(ErrorMessageList == null || ErrorMessageList.size() == 0)){
+		if (ErrorMessageList != null && ErrorMessageList.size() > 0){
 			request.setAttribute("ErrorMessageList", ErrorMessageList);
 			request.getRequestDispatcher("/InputBirthday").forward(request, response);
-		}
-
+		}else{
 		/**
 		 * ②今日の日付を取得する
 		 */
 		Date date = new Date();
 		java.sql.Date results_date = convert(date);
+
 
 		/**
 		 * ③resultsテーブルから誕生日・本日の日付を条件にデータを取得する
@@ -113,11 +113,12 @@ public class ChangeToResults extends HttpServlet {
 		request.setAttribute("results", oi);
 		request.getRequestDispatcher("/jsp/OmikujiResults.jsp").forward(request, response);
 	}
-
+	}
 	/**
-	 * ❷誕生日を求めるメソッド。コンソールに出力できるように設定。
+	 * ❷誕生日を求めるメソッド。
+	 * 入力チェックに引っかかればそのエラーが全てリストに詰められる
 	 *
-	 * @return sDate
+	 * @return checkBirthday
 	 */
 	public static List<String> checkBirthday(String birthday) {
 		List<String> checkBirthday = new ArrayList<String>();
@@ -154,7 +155,7 @@ public class ChangeToResults extends HttpServlet {
 	 * （本日の日付を求めるため、utilクラスのDate型をDaoと同じsqlクラスのDate型に変更する必要があるため。）
 	 *
 	 * @param uDate
-	 * @return
+	 * @return result_date
 	 */
 	private static java.sql.Date convert(java.util.Date utilDate) {
 		java.sql.Date result_date = new java.sql.Date(utilDate.getTime());

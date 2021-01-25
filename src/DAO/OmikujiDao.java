@@ -59,7 +59,7 @@ public class OmikujiDao {
 	 * （randomの引数(omikujiテーブルの登録数)をSQLのCountを使用して取得するため）
 	 *
 	 * @param num
-	 * @return resultsBean
+	 * @return num
 	 */
 	public static int count() {
 

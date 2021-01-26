@@ -3,6 +3,7 @@ package Servlet;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Bean.OmikujiBean;
+import DAO.OmikujiDao;
 import DAO.ResultsDao;
 
 /**
@@ -45,11 +48,13 @@ public class halfMonthResults extends HttpServlet {
 		/**
 		 * ④resultsテーブルから「今日から過去半年間の全データ数」を取得
 		 */
-		int receiveAllNum = ResultsDao.receaveHalfMonthResultsData(sqlDate, results_date);
+		int receiveAllNum = ResultsDao.receiveHalfMonthResultsData(sqlDate, results_date);
 		System.out.println("過去半年のデータ数は："+ receiveAllNum);
 
-		int receiveFortuneNum = ResultsDao.receaveHalfMonthResultsData(sqlDate, results_date);
-		System.out.println("過去半年のデータ数は："+ receiveAllNum);
+
+		List<OmikujiBean> receiveFortuneNum  = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, results_date);
+
+		System.out.println("過去半年のデータ数は(運勢) ："+ receiveFortuneNum);
 
 
 

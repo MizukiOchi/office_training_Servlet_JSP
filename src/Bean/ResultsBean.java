@@ -11,8 +11,7 @@ public class ResultsBean {
 	private String update_date;
 	private String author;
 	private String create_date;
-	private int receaveHalfMonthResultsData;
-	private int receaveHalfMonthResultsFortuneData;
+	private int receiveHalfMonthResultsData;
 
 	public Date getResults_date() {
 		return results_date;
@@ -70,20 +69,12 @@ public class ResultsBean {
 		this.create_date = create_date;
 	}
 
-	public int getReceaveHalfMonthResultsData() {
-		return receaveHalfMonthResultsData;
+	public int getReceiveHalfMonthResultsData() {
+		return receiveHalfMonthResultsData;
 	}
 
-	public void setReceaveHalfMonthResultsData(int receaveHalfMonthResultsData) {
-		this.receaveHalfMonthResultsData = receaveHalfMonthResultsData;
-	}
-
-	public int getReceaveHalfMonthResultsFortuneData() {
-		return receaveHalfMonthResultsFortuneData;
-	}
-
-	public void setReceaveHalfMonthResultsFortuneData(int receaveHalfMonthResultsFortuneData) {
-		this.receaveHalfMonthResultsFortuneData = receaveHalfMonthResultsFortuneData;
+	public void setReceiveHalfMonthResultsData(int receiveHalfMonthResultsData) {
+		this.receiveHalfMonthResultsData = receiveHalfMonthResultsData;
 	}
 
 	/**
@@ -95,5 +86,4 @@ public class ResultsBean {
 				+ ", changer=" + changer + ", update_date=" + update_date + ", author=" + author + ", create_date="
 				+ create_date + "]";
 	}
-
 }

@@ -13,6 +13,7 @@ public class OmikujiBean {
 	private String author;
 	private String create_date;
 	private String fortune_name;
+	private String receiveHalfMonthResultsFortuneData;
 
 	public String getOmikuji_id() {
 		return omikuji_id;
@@ -92,6 +93,14 @@ public class OmikujiBean {
 
 	public void setFortune_name(String fortune_name) {
 		this.fortune_name = fortune_name;
+	}
+
+	public String getReceiveHalfMonthResultsFortuneData() {
+		return receiveHalfMonthResultsFortuneData;
+	}
+
+	public void setReceiveHalfMonthResultsFortuneData(String receiveHalfMonthResultsFortuneData) {
+		this.receiveHalfMonthResultsFortuneData = receiveHalfMonthResultsFortuneData;
 	}
 
 }

@@ -1,7 +1,6 @@
 package Servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,24 +39,19 @@ public class halfMonthResults extends HttpServlet {
 		int date = calendar.get(Calendar.DAY_OF_MONTH);
 		java.sql.Date sqlDate = java.sql.Date.valueOf(year + "-" + (month + 1) + "-" + date);
 
-		//		/**
-		//		 * ③sqlで今日から半年のデータを全て取得
-		//		 */
-		//		List<ResultsBean> rb = ResultsDao.selecthalfMonthResults(sqlDate, results_date);
+		/**
+		 * ③sqlで今日から半年のデータを全て取得
+		 */
+		int halfMonthDataNum = ResultsDao.receiveHalfMonthResultsData(sqlDate, results_date);
+		System.out.println(halfMonthDataNum);
 
 		/**
 		 * ④resultsテーブルから「今日から過去半年間の全データ数」を取得
 		 */
-		int receiveAllNum = ResultsDao.receiveHalfMonthResultsData(sqlDate, results_date);
-		System.out.println("過去半年のデータ数は：" + receiveAllNum);
-
-		List<OmikujiBean> receiveFortuneNum = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, results_date);
-		List<String> fortuneNameList = new ArrayList<String>();
-
-		for (OmikujiBean omikujiBean : receiveFortuneNum) {
-			fortuneNameList.add(omikujiBean.getFortune_name());
-			System.out.println("過去半年のデータ数は(運勢) ：" + omikujiBean.getFortune_name());
-		}
+		List<OmikujiBean> receiveHalfMonthResultsFortuneData = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, results_date);
+//		for(String fortune: receiveHalfMonthResultsFortuneData) {
+//			System.out.println("過去半年のデータ数は(運勢) ：" + omikujiBean.getFortune_name());
+//		}
 
 		request.getRequestDispatcher("/jsp/JhalfMonthResults.jsp").forward(request, response);
 

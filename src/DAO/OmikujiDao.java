@@ -92,6 +92,7 @@ public class OmikujiDao {
 		return num;
 
 	}
+
 	/**
 	 * resultsテーブルから「今日から過去半年間の各運勢データ」のデータ数を取得するメソッド
 	 *
@@ -103,12 +104,12 @@ public class OmikujiDao {
 		Connection connection = null; // 特定のDBとの接続
 		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
 		List<OmikujiBean> receiveHalfMonthResultsFortuneData = new ArrayList<OmikujiBean>();
-		OmikujiBean omikujiBean = new OmikujiBean();
+
 		try {
 			// DBに接続する
 			connection = DBManager.getConnection();
 			// 本日から過去半年間のデータの個数を取得
-			String sql = "SELECT f.fortune_name, COUNT(*) AS receiveHalfMonthResultsFortuneData FROM results r LEFT OUTER JOIN omikuji o ON r.omikuji_id = o.omikuji_id LEFT OUTER JOIN fortune f ON o.fortune_id = f.fortune_id WHERE r.results_date BETWEEN ? AND ? GROUP BY f.fortune_name;";
+			String sql = "SELECT f.fortune_name, COUNT(*) AS hmr_fortune_data_num FROM results r LEFT OUTER JOIN omikuji o ON r.omikuji_id = o.omikuji_id LEFT OUTER JOIN fortune f ON o.fortune_id = f.fortune_id WHERE r.results_date BETWEEN ? AND ? GROUP BY f.fortune_name;";
 			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
 			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			preparedStatement.setDate(1, sqlDate); // ②ー１
@@ -118,17 +119,10 @@ public class OmikujiDao {
 			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
 			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
 			while (resultSet.next()) {
-//				OmikujiBean omikujiBean = new OmikujiBean();
-//				omikujiBean.setOmikuji_id(resultSet.getString("omikuji_id"));
-//				omikujiBean.setFortune_id(resultSet.getString("fortune_id"));
-//				omikujiBean.setWish(resultSet.getString("wish"));
-//				omikujiBean.setBusiness(resultSet.getString("business"));
-//				omikujiBean.setStudy(resultSet.getString("study"));
-//				omikujiBean.setChanger(resultSet.getString("changer"));
-//				omikujiBean.setUpdate_date(resultSet.getString("update_date"));
-//				omikujiBean.setAuthor(resultSet.getString("author"));
-//				omikujiBean.setCreate_date(resultSet.getString("create_date"));
+				OmikujiBean omikujiBean = new OmikujiBean();
 				omikujiBean.setFortune_name(resultSet.getString("fortune_name"));
+				omikujiBean.setHmr_fortune_data_num(resultSet.getString("hmr_fortune_data_num"));
+				receiveHalfMonthResultsFortuneData.add(omikujiBean);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

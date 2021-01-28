@@ -40,19 +40,30 @@ public class halfMonthResults extends HttpServlet {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(year + "-" + (month + 1) + "-" + date);
 
 		/**
-		 * ③sqlで今日から半年のデータを全て取得
+		 * ③resultsテーブルから「今日から過去半年間の全データ数」を取得
 		 */
-		int halfMonthDataNum = ResultsDao.receiveHalfMonthResultsData(sqlDate, results_date);
-		System.out.println(halfMonthDataNum);
+		double halfMonthDataNum = ResultsDao.receiveHalfMonthResultsData(sqlDate, results_date);
+		System.out.println("過去半年の全てのデータ数："+halfMonthDataNum);
 
 		/**
-		 * ④resultsテーブルから「今日から過去半年間の全データ数」を取得
+		 * ④resultsテーブルから「今日から過去半年間の各運勢のデータ数」を取得
+		 * ⑤各運勢のデータ数(④)÷全体(③)
 		 */
-		List<OmikujiBean> receiveHalfMonthResultsFortuneData = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, results_date);
-//		for(String fortune: receiveHalfMonthResultsFortuneData) {
-//			System.out.println("過去半年のデータ数は(運勢) ：" + omikujiBean.getFortune_name());
-//		}
+		List<OmikujiBean> receiveHalfMonthResultsFortuneData = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate,
+				results_date);
 
+		String fortuneNumName = "";
+		double fortuneNum = 0;
+		double roundingPercent = 0;
+		for (OmikujiBean receiveFortuneBean : receiveHalfMonthResultsFortuneData) {
+			fortuneNumName = receiveFortuneBean.getFortune_name();
+			fortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
+			System.out.println("過去半年の全てのデータ数："+fortuneNum);
+			roundingPercent = ((double)Math.round(fortuneNum / halfMonthDataNum * 100 * 10)) / 10;
+			System.out.println(fortuneNumName + "：" + roundingPercent + "%");
+
+			request.setAttribute("fortunePercent", roundingPercent);
+		}
 		request.getRequestDispatcher("/jsp/JhalfMonthResults.jsp").forward(request, response);
 
 	}

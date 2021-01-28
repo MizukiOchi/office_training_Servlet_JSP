@@ -7,6 +7,11 @@
 <title>半年の結果割合</title>
 </head>
 <body>
+<div>
+<%-- <%
+			double roundingPercent  = request.getAttribute("fortunePercent");
+		%> --%>
+</div>
 
 </body>
 </html>

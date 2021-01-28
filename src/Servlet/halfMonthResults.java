@@ -1,6 +1,7 @@
 package Servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,7 @@ public class halfMonthResults extends HttpServlet {
 		 */
 		List<OmikujiBean> receiveHalfMonthResultsFortuneData = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate,
 				results_date);
+		List<String> resulesPercentList = new ArrayList<String>();
 
 		String fortuneNumName = "";
 		double fortuneNum = 0;
@@ -60,10 +62,11 @@ public class halfMonthResults extends HttpServlet {
 			fortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
 			System.out.println("過去半年の全てのデータ数："+fortuneNum);
 			roundingPercent = ((double)Math.round(fortuneNum / halfMonthDataNum * 100 * 10)) / 10;
-			System.out.println(fortuneNumName + "：" + roundingPercent + "%");
-
-			request.setAttribute("fortunePercent", roundingPercent);
+			String percent = fortuneNumName +":"+ roundingPercent + "%";
+			resulesPercentList.add(percent);
+			System.out.println(resulesPercentList);
 		}
+		request.setAttribute("resulesPercentList", resulesPercentList);
 		request.getRequestDispatcher("/jsp/JhalfMonthResults.jsp").forward(request, response);
 
 	}

@@ -109,7 +109,7 @@ public class OmikujiDao {
 			// DBに接続する
 			connection = DBManager.getConnection();
 			// 本日から過去半年間のデータの個数を取得
-			String sql = "SELECT f.fortune_name, COUNT(*) AS hmr_fortune_data_num FROM results r LEFT OUTER JOIN omikuji o ON r.omikuji_id = o.omikuji_id LEFT OUTER JOIN fortune f ON o.fortune_id = f.fortune_id WHERE r.results_date BETWEEN ? AND ? GROUP BY f.fortune_name;";
+			String sql = "SELECT f.fortune_name, COUNT(*) AS hmr_fortune_data_num FROM results r LEFT OUTER JOIN omikuji o ON r.omikuji_id = o.omikuji_id LEFT OUTER JOIN fortune f ON o.fortune_id = f.fortune_id WHERE r.results_date BETWEEN ? AND ? GROUP BY f.fortune_id ORDER BY f.fortune_id ASC ;";
 			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
 			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			preparedStatement.setDate(1, sqlDate); // ②ー１

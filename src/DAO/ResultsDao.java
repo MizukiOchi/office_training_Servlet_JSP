@@ -121,4 +121,36 @@ public class ResultsDao {
 		}
 		return receiveHalfMonthResultsData;
 	}
+//	/**
+//	 * resultsテーブルから「本日占ったデータ」からbirthdayを取得するメソッド
+//	 *
+//	 * @param
+//	 * @return
+//	 */
+//	public static List<String> todaysBirhday(Date results_date) {
+//		List<String> todaysBirthdayList = new ArrayList<String>();
+//		Connection connection = null; // 特定のDBとの接続
+//		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
+//		try {
+//			// DBに接続する
+//			connection = DBManager.getConnection();
+//			// 本日から過去半年間のデータの個数を取得
+//			String sql = "SELECT birthday FROM results WHERE results_date = ?;";
+//			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
+//			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
+//			preparedStatement.setDate(1, results_date); //
+//			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
+//			ResultSet resultSet = preparedStatement.executeQuery();
+//			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
+//			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
+//			while (resultSet.next()) {
+//				todaysBirthdayList = resultSet.getString("todaysBirthdayList");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			DBManager.close(ps, connection);
+//		}
+//		return todaysBirthdayList;
+//	}
 }

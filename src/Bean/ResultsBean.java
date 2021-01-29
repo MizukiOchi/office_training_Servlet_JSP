@@ -12,6 +12,7 @@ public class ResultsBean {
 	private String author;
 	private String create_date;
 	private int receiveHalfMonthResultsData;
+	private String todaysBirthdayList;
 
 	public Date getResults_date() {
 		return results_date;
@@ -77,6 +78,14 @@ public class ResultsBean {
 		this.receiveHalfMonthResultsData = receiveHalfMonthResultsData;
 	}
 
+	public String getTodaysBirthdayList() {
+		return todaysBirthdayList;
+	}
+
+	public void setTodaysBirthdayList(String todaysBirthdayList) {
+		this.todaysBirthdayList = todaysBirthdayList;
+	}
+
 	/**
 	 * ?
 	 */
@@ -86,4 +95,5 @@ public class ResultsBean {
 				+ ", changer=" + changer + ", update_date=" + update_date + ", author=" + author + ", create_date="
 				+ create_date + "]";
 	}
+
 }

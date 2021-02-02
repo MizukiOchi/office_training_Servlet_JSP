@@ -12,6 +12,6 @@
 		<c:forEach var="percent" items="${resulesPercentList}">
 		${percent}<br>
 		</c:forEach>
-
+<button type=button onclick="history.back()">戻る</button>
 </body>
 </html>

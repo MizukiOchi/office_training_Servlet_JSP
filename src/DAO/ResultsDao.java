@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import Bean.OmikujiBean;
 import Bean.ResultsBean;
 
 public class ResultsDao {
@@ -121,16 +124,17 @@ public class ResultsDao {
 		}
 		return receiveHalfMonthResultsData;
 	}
+
 //	/**
 //	 * resultsテーブルから「本日占ったデータ」からbirthdayを取得するメソッド
 //	 *
-//	 * @param
-//	 * @return
+//	 * @param todaysBirthdayList
+//	 * @return todaysBirthdayList
 //	 */
-//	public static List<String> todaysBirhday(Date results_date) {
-//		List<String> todaysBirthdayList = new ArrayList<String>();
+//	public static List<ResultsBean> todaysBirhday(Date results_date) {
 //		Connection connection = null; // 特定のDBとの接続
 //		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
+//		List<ResultsBean> todaysBirthdayList = new ArrayList<ResultsBean>();
 //		try {
 //			// DBに接続する
 //			connection = DBManager.getConnection();
@@ -144,7 +148,17 @@ public class ResultsDao {
 //			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
 //			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
 //			while (resultSet.next()) {
-//				todaysBirthdayList = resultSet.getString("todaysBirthdayList");
+//				ResultsBean rb = new ResultsBean();
+////				rb.setResults_date(resultSet.getDate("results_date"));
+////				rb.setOmikuji_id(resultSet.getString("omikuji_id"));
+//				rb.setBirthday(resultSet.getString("birthday"));
+////				rb.setChanger(resultSet.getString("changer"));
+////				rb.setUpdate_date(resultSet.getString("update_date"));
+////				rb.setAuthor(resultSet.getString("author"));
+////				rb.setCreate_date(resultSet.getString("create_date"));
+////				rb.setReceiveHalfMonthResultsData(resultSet.getInt("receiveHalfMonthResultsData"));
+////				rb.setTodaysBirthday(resultSet.getString("todaysBirthday"));
+//				todaysBirthdayList.add(rb);
 //			}
 //		} catch (Exception e) {
 //			e.printStackTrace();
@@ -153,4 +167,50 @@ public class ResultsDao {
 //		}
 //		return todaysBirthdayList;
 //	}
+
+	/**
+	 * 上のメソッドで取得した誕生日を条件に、過去半年間の中から結果を取得
+	 *
+	 * @param
+	 * @return pastBirthdayResultsList
+	 */
+	public static List<ResultsBean> pastBirhdayResults(Date sqlDate, Date results_date, String birthday) {
+		Connection connection = null; // 特定のDBとの接続
+		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
+		//for文でlistからだす
+
+		List<ResultsBean> pastBirthdayResultsList = new ArrayList<ResultsBean>();
+		try {
+			// DBに接続する
+			connection = DBManager.getConnection();
+			// 本日から過去半年間のデータの個数を取得
+			String sql = "SELECT r.results_date, f.fortune_name, o.wish, o.business, o.study FROM  results r  LEFT OUTER JOIN omikuji o ON (r.omikuji_id = o.omikuji_id) LEFT OUTER JOIN fortune f ON (o.fortune_id = f.fortune_id) WHERE r.results_date BETWEEN ? AND ? AND r.birthday = ?;";
+			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
+			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
+			preparedStatement.setDate(1, sqlDate);
+			preparedStatement.setDate(2, results_date);
+			preparedStatement.setString(3, birthday);
+			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
+			ResultSet resultSet = preparedStatement.executeQuery();
+			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
+			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
+			while (resultSet.next()) {
+				ResultsBean rb = new ResultsBean();
+				rb.setResults_date(resultSet.getDate("results_date"));
+				OmikujiBean ob = new OmikujiBean();
+				ob.setFortune_name(resultSet.getString("fortune_name"));
+				ob.setWish(resultSet.getString("wish"));
+				ob.setBusiness(resultSet.getString("business"));
+				ob.setStudy(resultSet.getString("study"));
+				rb.setOb(ob);
+				pastBirthdayResultsList.add(rb);
+				System.out.println("rb:"+rb);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(ps, connection);
+		}
+		return pastBirthdayResultsList;
+	}
 }

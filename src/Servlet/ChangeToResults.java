@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Bean.OmikujiBean;
 import Bean.ResultsBean;
@@ -35,6 +36,8 @@ public class ChangeToResults extends HttpServlet {
 		//HTML（サーブレット）から入力されたパラメータの値を取得
 		String birthday = request.getParameter("birthday");
 		request.setAttribute("birthday", birthday);
+		HttpSession session = request.getSession();
+		session.setAttribute("birthday", birthday);
 		//checkBirthday（入力チェックするメソッドで）対象の値が帰ってきた時は、InputBirthdayクラスに戻ってエラーを画面に出す
 		List<String> ErrorMessageList = checkBirthday(birthday);
 		//mapにエラーががあれば、InputBirthdayに画面遷移とエラーメッセージを引き渡す

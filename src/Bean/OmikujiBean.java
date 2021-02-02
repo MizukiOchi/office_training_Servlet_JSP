@@ -13,6 +13,7 @@ public class OmikujiBean {
 	private String author;
 	private String create_date;
 	private String fortune_name;
+
 	//	private String receiveHalfMonthResultsFortuneData;
 	private String hmr_fortune_data_num;
 
@@ -103,13 +104,5 @@ public class OmikujiBean {
 	public void setHmr_fortune_data_num(String hmr_fortune_data_num) {
 		this.hmr_fortune_data_num = hmr_fortune_data_num;
 	}
-
-	//	public String getReceiveHalfMonthResultsFortuneData() {
-	//		return receiveHalfMonthResultsFortuneData;
-	//	}
-	//
-	//	public void setReceiveHalfMonthResultsFortuneData(String receiveHalfMonthResultsFortuneData) {
-	//		this.receiveHalfMonthResultsFortuneData = receiveHalfMonthResultsFortuneData;
-	//	}
 
 }

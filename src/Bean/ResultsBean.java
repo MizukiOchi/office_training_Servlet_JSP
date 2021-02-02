@@ -12,7 +12,8 @@ public class ResultsBean {
 	private String author;
 	private String create_date;
 	private int receiveHalfMonthResultsData;
-	private String todaysBirthdayList;
+	private String todaysBirthday;
+	private OmikujiBean ob;
 
 	public Date getResults_date() {
 		return results_date;
@@ -78,12 +79,12 @@ public class ResultsBean {
 		this.receiveHalfMonthResultsData = receiveHalfMonthResultsData;
 	}
 
-	public String getTodaysBirthdayList() {
-		return todaysBirthdayList;
+	public String getTodaysBirthday() {
+		return todaysBirthday;
 	}
 
-	public void setTodaysBirthdayList(String todaysBirthdayList) {
-		this.todaysBirthdayList = todaysBirthdayList;
+	public void setTodaysBirthday(String todaysBirthday) {
+		this.todaysBirthday = todaysBirthday;
 	}
 
 	/**
@@ -94,6 +95,14 @@ public class ResultsBean {
 		return "ResultsBean [results_date=" + results_date + ", omikuji_id=" + omikuji_id + ", birthday=" + birthday
 				+ ", changer=" + changer + ", update_date=" + update_date + ", author=" + author + ", create_date="
 				+ create_date + "]";
+	}
+
+	public OmikujiBean getOb() {
+		return ob;
+	}
+
+	public void setOb(OmikujiBean ob) {
+		this.ob = ob;
 	}
 
 }

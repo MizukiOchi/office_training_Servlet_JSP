@@ -44,13 +44,8 @@ public class sameBirthday extends HttpServlet {
 		 */
 		HttpSession session = request.getSession();
 		String birthday = (String) session.getAttribute("birthday");
-		System.out.println(birthday);
 		List<ResultsBean> pastBirhdayResults = ResultsDao.pastBirhdayResults(sqlDate,
 				results_date, birthday);
-		for (ResultsBean resultsBean : pastBirhdayResults) {
-			System.out.println(resultsBean.getOb().getFortune_name());
-
-		}
 
 		request.setAttribute("pastBirhdayResults", pastBirhdayResults);
 		request.getRequestDispatcher("/jsp/JsameBirthday.jsp").forward(request, response);

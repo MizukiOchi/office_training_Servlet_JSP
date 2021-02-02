@@ -204,7 +204,6 @@ public class ResultsDao {
 				ob.setStudy(resultSet.getString("study"));
 				rb.setOb(ob);
 				pastBirthdayResultsList.add(rb);
-				System.out.println("rb:"+rb);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

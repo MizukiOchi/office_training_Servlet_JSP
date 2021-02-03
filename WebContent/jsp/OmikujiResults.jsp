@@ -52,8 +52,6 @@ width: 300px;
 height: 300px;
 }
 
-
-
 <%--共通ボタン--%>
 <%--まずはお決まりのボックスサイズ算出をborer-boxに --%>
  *, *:before, *:after {

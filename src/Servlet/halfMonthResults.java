@@ -63,6 +63,24 @@ public class halfMonthResults extends HttpServlet {
 			String percent = fortuneNumName + ":" + roundingPercent + "%";
 			resulesPercentList.add(percent);
 		}
+		/**
+		 * ⑥resultsテーブルから「今日から本日の各運勢のデータ数」を取得
+		 * ⑦各運勢のデータ数(④)÷全体(③)
+		 */
+		List<OmikujiBean> receiveTodayResultsFortuneData = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate,
+				results_date);
+		List<String> todayResulesPercentList = new ArrayList<String>();
+
+		String todayFortuneNumName = "";
+		double todayFortuneNum = 0;
+		double todayRoundingPercent = 0;
+		for (OmikujiBean receiveFortuneBean : receiveHalfMonthResultsFortuneData) {
+			fortuneNumName = receiveFortuneBean.getFortune_name();
+			fortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
+			roundingPercent = ((double)Math.round(fortuneNum / halfMonthDataNum * 100 * 10)) / 10;
+			String percent = fortuneNumName + ":" + roundingPercent + "%";
+			resulesPercentList.add(percent);
+		}
 		request.setAttribute("resulesPercentList", resulesPercentList);
 		request.getRequestDispatcher("/jsp/JhalfMonthResults.jsp").forward(request, response);
 

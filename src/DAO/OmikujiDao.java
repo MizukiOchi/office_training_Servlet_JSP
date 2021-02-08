@@ -131,5 +131,42 @@ public class OmikujiDao {
 		}
 		return receiveHalfMonthResultsFortuneData;
 	}
+	/**
+	 * resultsテーブルから「今日占った全データ」のデータ数を取得するメソッド
+	 *
+	 * @param receiveTodayMonthResultsFortuneData
+	 * @return receiveTodayMonthResultsFortuneData
+	 */
+	public static List<OmikujiBean> receiveTodayMonthResultsFortuneData(Date results_date) {
+
+		Connection connection = null; // 特定のDBとの接続
+		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
+		List<OmikujiBean> receiveHalfMonthResultsFortuneData = new ArrayList<OmikujiBean>();
+
+		try {
+			// DBに接続する
+			connection = DBManager.getConnection();
+			// 本日から過去半年間のデータの個数を取得
+			String sql = "SELECT f.fortune_name, COUNT(*) AS tdr_fortune_data_num FROM results r LEFT OUTER JOIN omikuji o ON r.omikuji_id = o.omikuji_id LEFT OUTER JOIN fortune f ON o.fortune_id = f.fortune_id WHERE r.results_date = ? GROUP BY f.fortune_id ORDER BY f.fortune_id ASC ;";
+			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
+			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
+			preparedStatement.setDate(1, results_date);
+			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
+			ResultSet resultSet = preparedStatement.executeQuery();
+			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
+			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
+			while (resultSet.next()) {
+				OmikujiBean omikujiBean = new OmikujiBean();
+				omikujiBean.setFortune_name(resultSet.getString("fortune_name"));
+				omikujiBean.setHmr_fortune_data_num(resultSet.getString("hmr_fortune_data_num"));
+				receiveHalfMonthResultsFortuneData.add(omikujiBean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(ps, connection);
+		}
+		return receiveHalfMonthResultsFortuneData;
+	}
 
 }

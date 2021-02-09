@@ -73,9 +73,23 @@ public class halfMonthResults extends HttpServlet {
 
 		/**
 		 * ⑦resultsテーブルから「今日の各運勢のデータ数」を取得
-		 * ⑧各運勢のデータ数(④)÷全体(③)
+		 * ⑧各運勢のデータ数(⑦)÷全体(⑥)
 		 */
-		List<OmikujiBean> receiveTodayResultsFortuneData = OmikujiDao.receiveTodayResultsFortuneData(results_date);
+		String[] fortune_name = {"大吉","中吉","小吉", "末吉","吉","凶"};
+		List<OmikujiBean> receiveTodayResultsFortuneData = new ArrayList<OmikujiBean>();
+		for (String fortuneName : fortune_name) {
+			List<OmikujiBean> receiveDataList = OmikujiDao.receiveTodayResultsFortuneData(results_date, fortuneName);
+			if(!receiveDataList.isEmpty()) {
+				receiveTodayResultsFortuneData.addAll(receiveDataList);
+				System.out.println(receiveTodayResultsFortuneData);
+			}else if(receiveDataList.isEmpty()){
+				OmikujiBean omikujiBean = new OmikujiBean();
+				omikujiBean.setFortune_name(fortuneName);
+				omikujiBean.setHmr_fortune_data_num("0");
+				receiveTodayResultsFortuneData.add(omikujiBean);
+				System.out.println(receiveTodayResultsFortuneData);
+			}
+		}
 		List<String> resultsTodayList = new ArrayList<String>();
 
 		String tFortuneNumName = "";
@@ -83,10 +97,6 @@ public class halfMonthResults extends HttpServlet {
 		double tRoundingPercent = 0;
 		for (OmikujiBean receiveFortuneBean : receiveTodayResultsFortuneData) {
 			tFortuneNumName = receiveFortuneBean.getFortune_name();
-//			もし運勢が出力されてなかったら「０％」と表示する
-
-
-
 			tFortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
 			tRoundingPercent = ((double)Math.round(tFortuneNum / todayDataNum * 100 * 10)) / 10;
 			String todayPercent = tFortuneNumName + ":" + tRoundingPercent + "%";

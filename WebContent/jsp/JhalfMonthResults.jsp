@@ -70,6 +70,7 @@ a.btn--green.btn--cubic:hover {
 </head>
 <body>
 	<h2>各運勢の割合</h2>
+	※過去半年の全体のおみくじ運勢の割合
 	<c:forEach var="percent" items="${resulesPercentList}">
 		${percent}<br>
 	</c:forEach>

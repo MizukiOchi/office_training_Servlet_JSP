@@ -51,7 +51,7 @@ public class halfMonthResults extends HttpServlet {
 		 */
 		List<OmikujiBean> receiveHalfMonthResultsFortuneData = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate,
 				results_date);
-		List<String> resulesPercentList = new ArrayList<String>();
+		List<String> resultPercent = new ArrayList<String>();
 
 		String fortuneNumName = "";
 		double fortuneNum = 0;
@@ -60,13 +60,47 @@ public class halfMonthResults extends HttpServlet {
 			fortuneNumName = receiveFortuneBean.getFortune_name();
 			fortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
 			roundingPercent = ((double)Math.round(fortuneNum / halfMonthDataNum * 100 * 10)) / 10;
+//			System.out.println(roundingPercent);
 			String percent = fortuneNumName + ":" + roundingPercent + "%";
-			resulesPercentList.add(percent);
+			resultPercent.add(percent);
 		}
-		request.setAttribute("resulesPercentList", resulesPercentList);
+		/**
+		 * ⑥本日の全データ数を取得
+		 *
+		 */
+		double todayDataNum = ResultsDao.receiveTodayResultsData(results_date);
+//		System.out.println(todayDataNum);
+
+		/**
+		 * ⑦resultsテーブルから「今日の各運勢のデータ数」を取得
+		 * ⑧各運勢のデータ数(④)÷全体(③)
+		 */
+		List<OmikujiBean> receiveTodayResultsFortuneData = OmikujiDao.receiveTodayResultsFortuneData(results_date);
+		List<String> resultsTodayList = new ArrayList<String>();
+
+		String tFortuneNumName = "";
+		double tFortuneNum = 0;
+		double tRoundingPercent = 0;
+		for (OmikujiBean receiveFortuneBean : receiveTodayResultsFortuneData) {
+			tFortuneNumName = receiveFortuneBean.getFortune_name();
+//			もし運勢が出力されてなかったら「０％」と表示する
+
+
+
+			tFortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
+			tRoundingPercent = ((double)Math.round(tFortuneNum / todayDataNum * 100 * 10)) / 10;
+			String todayPercent = tFortuneNumName + ":" + tRoundingPercent + "%";
+			System.out.println(todayPercent);
+			resultsTodayList.add(todayPercent);
+			System.out.println(resultsTodayList);
+		}
+
+		request.setAttribute("resultsPercentList", resultPercent);
+		request.setAttribute("resultsTodayList", resultsTodayList);
 		request.getRequestDispatcher("/jsp/JhalfMonthResults.jsp").forward(request, response);
 
 	}
+
 
 	/**
 	 * ●utilクラスのDate型からsqlクラスのDate型に変換するメソッド

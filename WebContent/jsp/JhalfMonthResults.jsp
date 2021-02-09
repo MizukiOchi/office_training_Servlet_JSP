@@ -13,9 +13,9 @@ body {
 	background: #EEE8AA;
 }
 
-<%--共通ボタン-- %>
-<%--まずはお決まりのボックスサイズ算出をborer-boxに --%>
-*, *:before, *:after {
+<%--共通ボタン--%>
+ <%--まずはお決まりのボックスサイズ算出をborer-boxに --%>
+ *, *:before, *:after {
 	-webkit-box-sizing: inherit;
 	box-sizing: inherit;
 }
@@ -49,7 +49,7 @@ html {
 }
 
 <%--ボタン--%>
-a.btn--green.btn--emboss {
+  a.btn--green.btn--emboss {
 	color: #0090bb;
 	fontfamily: Microsoft Sans Serif;
 	text-shadow: -1px -1px 1px 55d8ff;
@@ -66,17 +66,25 @@ a.btn--green.btn--cubic:hover {
 	margin-top: 30px;
 	margin-left: 80px;
 }
-</style>
-</head>
-<body>
-	<h2>各運勢の割合</h2>
-	※過去半年の全体のおみくじ運勢の割合
-	<c:forEach var="percent" items="${resulesPercentList}">
-		${percent}<br>
-	</c:forEach>
-	<div class="buotton">
-		<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history.back()">return</button>
-	</div>
 
+</style>
+ </head>
+
+ <body>
+ <h2>各運勢の割合 </h2>
+
+ ※過去半年の全体のおみくじ運勢結果の割合 <br>
+  <c:forEach var ="percent" items ="${resultsPercentList}">
+${percent}<br>
+ </c:forEach>
+
+ ※本日の誕生日のおみくじ運勢結果の割合<br>
+ <c:forEach var ="todayPercent" items ="${resultsTodayList}">
+${todayPercent}<br>
+</c:forEach>
+
+<div class ="buotton">
+<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history .back()">return</button>
+</div>
 </body>
 </html>

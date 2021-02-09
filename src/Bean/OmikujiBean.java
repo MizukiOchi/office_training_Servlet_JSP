@@ -13,9 +13,16 @@ public class OmikujiBean {
 	private String author;
 	private String create_date;
 	private String fortune_name;
-
-	//	private String receiveHalfMonthResultsFortuneData;
 	private String hmr_fortune_data_num;
+	private String tdr_fortune_data_num;
+
+	public String getTdr_fortune_data_num() {
+		return tdr_fortune_data_num;
+	}
+
+	public void setTdr_fortune_data_num(String tdr_fortune_data_num) {
+		this.tdr_fortune_data_num = tdr_fortune_data_num;
+	}
 
 	public String getOmikuji_id() {
 		return omikuji_id;

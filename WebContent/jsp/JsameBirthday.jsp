@@ -70,6 +70,7 @@ a.btn--green.btn--cubic:hover {
 </head>
 <body>
 	<h2>あなたの過去半年間の占い結果</h2>
+	※いま入力した誕生日を条件に過去半年のおみくじ結果を一覧で取得
 	<table>
 		<tr>
 			<th>占った日</th>

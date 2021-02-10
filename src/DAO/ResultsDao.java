@@ -125,7 +125,6 @@ public class ResultsDao {
 		return receiveHalfMonthResultsData;
 	}
 
-<<<<<<< HEAD
 	/**
 	 * resultsテーブルから「本日占ったデータ」からbirthdayを取得するメソッド
 	 *
@@ -169,8 +168,6 @@ public class ResultsDao {
 		return todaysBirthdayList;
 	}
 
-=======
->>>>>>> branch 'master' of https://github.com/MizukiOchi/office_training_Servlet_JSP.git
 	/**
 	 * 上のメソッドで取得した誕生日を条件に、過去半年間の中から結果を取得
 	 *

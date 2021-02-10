@@ -125,6 +125,7 @@ public class ResultsDao {
 		return receiveHalfMonthResultsData;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * resultsテーブルから「本日占ったデータ」からbirthdayを取得するメソッド
 	 *
@@ -168,10 +169,12 @@ public class ResultsDao {
 		return todaysBirthdayList;
 	}
 
+=======
+>>>>>>> branch 'master' of https://github.com/MizukiOchi/office_training_Servlet_JSP.git
 	/**
 	 * 上のメソッドで取得した誕生日を条件に、過去半年間の中から結果を取得
 	 *
-	 * @param
+	 * @param pastBirthdayResultsList
 	 * @return pastBirthdayResultsList
 	 */
 	public static List<ResultsBean> pastBirhdayResults(Date sqlDate, Date results_date, String birthday) {
@@ -212,4 +215,41 @@ public class ResultsDao {
 		}
 		return pastBirthdayResultsList;
 	}
+	/**
+	 * resultsテーブルから「今日から過去半年間のデータ」のデータ個数を取得するメソッド
+	 *
+	 * @param receiveHalfMonthResultsDataNum
+	 * @return receiveTodayResultsData
+	 */
+	public static int receiveTodayResultsData(Date results_date) {
+
+		Connection connection = null; // 特定のDBとの接続
+		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
+		int receiveTodayResultsData = 0;
+		try {
+			// DBに接続する
+			connection = DBManager.getConnection();
+			// 本日から過去半年間のデータの個数を取得
+			String sql = "SELECT COUNT(*) AS receiveTodayResultsDataNum FROM results WHERE results_date = ?;";
+			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
+			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
+			preparedStatement.setDate(1, results_date);
+			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
+			ResultSet resultSet = preparedStatement.executeQuery();
+			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
+			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
+			while (resultSet.next()) {
+				receiveTodayResultsData = resultSet.getInt("receiveTodayResultsDataNum");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(ps, connection);
+		}
+		return receiveTodayResultsData;
+	}
+
+
+
+
 }

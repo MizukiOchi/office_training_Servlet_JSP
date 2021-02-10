@@ -81,13 +81,13 @@ public class halfMonthResults extends HttpServlet {
 			List<OmikujiBean> receiveDataList = OmikujiDao.receiveTodayResultsFortuneData(results_date, fortuneName);
 			if(!receiveDataList.isEmpty()) {
 				receiveTodayResultsFortuneData.addAll(receiveDataList);
-				System.out.println(receiveTodayResultsFortuneData);
+//				System.out.println(receiveTodayResultsFortuneData);
 			}else if(receiveDataList.isEmpty()){
 				OmikujiBean omikujiBean = new OmikujiBean();
 				omikujiBean.setFortune_name(fortuneName);
 				omikujiBean.setHmr_fortune_data_num("0");
 				receiveTodayResultsFortuneData.add(omikujiBean);
-				System.out.println(receiveTodayResultsFortuneData);
+//				System.out.println(receiveTodayResultsFortuneData);
 			}
 		}
 		List<String> resultsTodayList = new ArrayList<String>();
@@ -100,9 +100,9 @@ public class halfMonthResults extends HttpServlet {
 			tFortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
 			tRoundingPercent = ((double)Math.round(tFortuneNum / todayDataNum * 100 * 10)) / 10;
 			String todayPercent = tFortuneNumName + ":" + tRoundingPercent + "%";
-			System.out.println(todayPercent);
+//			System.out.println(todayPercent);
 			resultsTodayList.add(todayPercent);
-			System.out.println(resultsTodayList);
+//			System.out.println(resultsTodayList);
 		}
 
 		request.setAttribute("resultsPercentList", resultPercent);

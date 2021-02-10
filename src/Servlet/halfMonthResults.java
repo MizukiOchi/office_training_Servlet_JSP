@@ -45,7 +45,6 @@ public class halfMonthResults extends HttpServlet {
 		 * ③resultsテーブルから「今日から過去半年間の全データ数」を取得
 		 */
 		double halfMonthDataNum = ResultsDao.receiveHalfMonthResultsData(sqlDate, results_date);
-		System.out.println(halfMonthDataNum);
 		/**
 		 * ④resultsテーブルから「今日から過去半年間の各運勢のデータ数」を取得
 		 * ⑤各運勢のデータ数(④)÷全体(③)
@@ -53,31 +52,28 @@ public class halfMonthResults extends HttpServlet {
 //		配列に各運勢名を入れてfor文を回して、１つずつの運勢でresultsテーブルに当てはまる運勢があるかを検索して、なければ０をここで入れるようにしている。
 		String[] hfortune_name = {"大吉","中吉","小吉", "末吉","吉","凶"};
 //		※ここで必ず運勢全てがlistに詰められるようになる
-		List<OmikujiBean> receiveHargMonthResultsFortuneData = new ArrayList<OmikujiBean>();
+		List<OmikujiBean> receiveHarfMonthResultsFortuneData = new ArrayList<OmikujiBean>();
 //		配列に詰めた運勢を１つずつ回す
-		for (String fortuneName : hfortune_name) {
+		for (String hFortuneName : hfortune_name) {
 //			もし、for文で回っている運勢と一致する運勢名がresultsテーブルに入っていたらlistに取ってきた値（resultsテーブルにある各運勢の数）を積める
-			List<OmikujiBean> hreceiveDataList = OmikujiDao.receiveTodayResultsFortuneData(results_date, fortuneName);
+			List<OmikujiBean> hreceiveDataList = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, results_date, hFortuneName);
 			if(!hreceiveDataList.isEmpty()) {
-				receiveHargMonthResultsFortuneData.addAll(hreceiveDataList);
+				receiveHarfMonthResultsFortuneData.addAll(hreceiveDataList);
 			}else if(hreceiveDataList.isEmpty()){
 				OmikujiBean omikujiBean = new OmikujiBean();
-				omikujiBean.setFortune_name(fortuneName);
+				omikujiBean.setFortune_name(hFortuneName);
 				omikujiBean.setHmr_fortune_data_num("0");
-				receiveHargMonthResultsFortuneData.add(omikujiBean);
+				receiveHarfMonthResultsFortuneData.add(omikujiBean);
 			}
 		}
 		List<String> resultPercent = new ArrayList<String>();
 		String fortuneNumName = "";
 		double fortuneNum = 0;
 		double roundingPercent = 0;
-		for (OmikujiBean receiveFortuneBean : receiveHargMonthResultsFortuneData) {
+		for (OmikujiBean receiveFortuneBean : receiveHarfMonthResultsFortuneData) {
 			fortuneNumName = receiveFortuneBean.getFortune_name();
-//			System.out.println(fortuneNumName);
 			fortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
-			System.out.println(fortuneNum);
 			roundingPercent = ((double)Math.round(fortuneNum / halfMonthDataNum * 100 * 10)) / 10;
-//			System.out.println(roundingPercent);
 			String percent = fortuneNumName + ":" + roundingPercent + "%";
 			resultPercent.add(percent);
 		}
@@ -86,7 +82,6 @@ public class halfMonthResults extends HttpServlet {
 		 *
 		 */
 		double todayDataNum = ResultsDao.receiveTodayResultsData(results_date);
-		System.out.println("t"+todayDataNum);
 
 		/**
 		 * ⑦resultsテーブルから「今日の各運勢のデータ数」を取得
@@ -102,17 +97,14 @@ public class halfMonthResults extends HttpServlet {
 			List<OmikujiBean> receiveDataList = OmikujiDao.receiveTodayResultsFortuneData(results_date, fortuneName);
 			if(!receiveDataList.isEmpty()) {
 				receiveTodayResultsFortuneData.addAll(receiveDataList);
-//				System.out.println(receiveTodayResultsFortuneData);
 			}else if(receiveDataList.isEmpty()){
 				OmikujiBean omikujiBean = new OmikujiBean();
 				omikujiBean.setFortune_name(fortuneName);
 				omikujiBean.setHmr_fortune_data_num("0");
 				receiveTodayResultsFortuneData.add(omikujiBean);
-//				System.out.println(receiveTodayResultsFortuneData);
 			}
 		}
 		List<String> resultsTodayList = new ArrayList<String>();
-
 		String tFortuneNumName = "";
 		double tFortuneNum = 0;
 		double tRoundingPercent = 0;
@@ -121,9 +113,7 @@ public class halfMonthResults extends HttpServlet {
 			tFortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
 			tRoundingPercent = ((double)Math.round(tFortuneNum / todayDataNum * 100 * 10)) / 10;
 			String todayPercent = tFortuneNumName + ":" + tRoundingPercent + "%";
-			System.out.println(todayPercent);
 			resultsTodayList.add(todayPercent);
-			System.out.println(resultsTodayList);
 		}
 
 		request.setAttribute("resultsPercentList", resultPercent);

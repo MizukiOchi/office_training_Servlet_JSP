@@ -99,7 +99,7 @@ public class OmikujiDao {
 	 * @param receiveHalfMonthResultsFortuneData
 	 * @return receiveHalfMonthResultsFortuneData
 	 */
-	public static List<OmikujiBean> receiveHalfMonthResultsFortuneData(Date sqlDate, Date results_date, String hfortune_name) {
+	public static List<OmikujiBean> receiveHalfMonthResultsFortuneData(Date sqlDate, Date results_date, String hfortune_name ) {
 
 		Connection connection = null; // 特定のDBとの接続
 		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。

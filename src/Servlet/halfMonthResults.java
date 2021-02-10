@@ -67,14 +67,13 @@ public class halfMonthResults extends HttpServlet {
 		 * ⑥resultsテーブルから「今日から本日の各運勢のデータ数」を取得
 		 * ⑦各運勢のデータ数(④)÷全体(③)
 		 */
-		List<OmikujiBean> receiveTodayResultsFortuneData = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate,
+		List<OmikujiBean> receiveHalfMonthResultsFortuneData1 = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate,
 				results_date);
 		List<String> todayResulesPercentList = new ArrayList<String>();
-
 		String todayFortuneNumName = "";
 		double todayFortuneNum = 0;
 		double todayRoundingPercent = 0;
-		for (OmikujiBean receiveFortuneBean : receiveHalfMonthResultsFortuneData) {
+		for (OmikujiBean receiveFortuneBean : receiveHalfMonthResultsFortuneData1) {
 			fortuneNumName = receiveFortuneBean.getFortune_name();
 			fortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
 			roundingPercent = ((double)Math.round(fortuneNum / halfMonthDataNum * 100 * 10)) / 10;
@@ -82,6 +81,39 @@ public class halfMonthResults extends HttpServlet {
 			resulesPercentList.add(percent);
 		}
 		request.setAttribute("resulesPercentList", resulesPercentList);
+
+		/**
+		 * ③resultsテーブルから「今日から過去半年間の全データ数」を取得
+		 */
+		double todayDataNum = ResultsDao.receiveTodayResultsData(results_date);
+
+
+		/**
+		 * ⑦resultsテーブルから「今日の各運勢のデータ数」を取得
+		 * ⑧各運勢のデータ数(④)÷全体(③)
+		 */
+		List<OmikujiBean> receiveTodayResultsFortuneData = OmikujiDao.receiveTodayResultsFortuneData(results_date);
+		List<String> resultsTodayList = new ArrayList<String>();
+
+		String tFortuneNumName = "";
+		double tFortuneNum = 0;
+		double tRoundingPercent = 0;
+		for (OmikujiBean receiveFortuneBean : receiveTodayResultsFortuneData) {
+			tFortuneNumName = receiveFortuneBean.getFortune_name();
+//			もし運勢が出力されてなかったら「０％」と表示する
+
+
+
+			tFortuneNum = Double.parseDouble(receiveFortuneBean.getHmr_fortune_data_num());
+			tRoundingPercent = ((double)Math.round(tFortuneNum / todayDataNum * 100 * 10)) / 10;
+			String resultPercent = tFortuneNumName + ":" + tRoundingPercent + "%";
+			System.out.println(resultPercent);
+			resultsTodayList.add(resultPercent);
+			System.out.println(resultsTodayList);
+		}
+
+		request.setAttribute("resultsPercentList", resultsTodayList);
+		request.setAttribute("resultsTodayList", resultsTodayList);
 		request.getRequestDispatcher("/jsp/JhalfMonthResults.jsp").forward(request, response);
 
 	}

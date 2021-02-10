@@ -65,7 +65,7 @@ html {
 	font-size: 62.5%; /*rem算出をしやすくするために*/
 }
 
-.btn, a.btn, button.btn {
+.button, .btn, a.btn, button.btn {
 	font-size: 1.6rem;
 	font-weight: 700;
 	line-height: 1.5;
@@ -83,27 +83,40 @@ html {
 	vertical-align: middle;
 	text-decoration: none;
 	letter-spacing: 0.1em;
-	color: #212529;
+	color: #000000;
 	border-radius: 0.5rem;
+	border: 0px none;
+	font-family: arial narrow;
 }
 
 <%--ボタン--%>
 a.btn--green.btn--emboss {
-	color: #0090bb;
-	fontfamily: Microsoft Sans Serif;
+	color: #000000;
 	text-shadow: -1px -1px 1px 55d8ff;
-	border-bottom: 5px solid #0090bb;
-	background: #00b7ee;
+	border-bottom: 5px solid #C0C0C0;
+	background: #FFFFFF;
 }
 
 a.btn--green.btn--cubic:hover {
 	margin-top: 3px;
-	border-bottom: 2px solid #0090bb;
+	border-bottom: 2px solid #C0C0C0;
 }
-.buotton{
+button.btn--green.btn--emboss {
+	color: #000000;
+	text-shadow: -1px -1px 1px 55d8ff;
+	border-bottom: 5px solid #C0C0C0;
+	background: #FFFFFF;
+}
+button.btn--green.btn--cubic:hover {
+	margin-top: 3px;
+	border-bottom: 2px solid #C0C0C0;
+}
+
+.button{
 margin-top: 30px;
-margin-left: 80px;
+margin-left: -200px;
 }
+
 </style>
 </head>
 <body>
@@ -123,11 +136,10 @@ margin-left: 80px;
 		</div >
 		</div>
 		<img class="panda" src="img/panda.jpg">
-		<div class="buotton">
-		<a class="btn btn--green btn--emboss btn--cubic "
-			href="/office_training_Servlet_JSP/InputBirthday">RETURN</a>
-			<a href="/office_training_Servlet_JSP/halfMonthResults">半年の結果割合</a>
-			<a href="/office_training_Servlet_JSP/sameBirthday">半年の誕生日結果</a>
+		<div class="button">
+			<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history.back()">RETURN</button>
+			<a class="btn btn--green btn--emboss btn--cubic" href="/office_training_Servlet_JSP/halfMonthResults">RESULTS OF PERCENTAGE</a>
+			<a class="btn btn--green btn--emboss btn--cubic" href="/office_training_Servlet_JSP/sameBirthday">YOUR FORTUNE RESULTS</a>
 	</div>
 </body>
 </html>

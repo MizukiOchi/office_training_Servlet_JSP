@@ -9,7 +9,7 @@
 <style>
 body {
 	margin-left: 500px;
-	margin-top: 50px;
+	margin-top: 70px;
 	background: #EEE8AA;
 }
 
@@ -25,8 +25,24 @@ html {
 	box-sizing: border-box;
 	font-size: 62.5%; /*rem算出をしやすくするために*/
 }
+h2{
+font-size: 18px;
+margin-top: -10px;
+margin-left: 150px;
+}
 
-.btn, a.btn, button.btn {
+.harfMonth{
+font-size: 18px;
+margin-top: 100px;
+margin-left: -180px;
+}
+.today{
+font-size: 18px;
+margin-top: -188px;
+margin-left: 300px;
+}
+
+.button, .btn, a.btn, button.btn {
 	font-size: 1.6rem;
 	font-weight: 700;
 	line-height: 1.5;
@@ -44,47 +60,51 @@ html {
 	vertical-align: middle;
 	text-decoration: none;
 	letter-spacing: 0.1em;
-	color: #212529;
+	color: #000000;
 	border-radius: 0.5rem;
+	border: 0px none;
+	font-family: arial narrow;
 }
 
 <%--ボタン--%>
-  a.btn--green.btn--emboss {
-	color: #0090bb;
-	fontfamily: Microsoft Sans Serif;
+button.btn--green.btn--emboss {
+	color: #000000;
 	text-shadow: -1px -1px 1px 55d8ff;
-	border-bottom: 5px solid #0090bb;
-	background: #00b7ee;
+	border-bottom: 5px solid #C0C0C0;
+	background: #FFFFFF;
 }
-
-a.btn--green.btn--cubic:hover {
+button.btn--green.btn--cubic:hover {
 	margin-top: 3px;
-	border-bottom: 2px solid #0090bb;
+	border-bottom: 2px solid #C0C0C0;
 }
 
-.buotton {
-	margin-top: 30px;
-	margin-left: 80px;
+.button{
+	margin-top: 200px;
+	margin-left: 150px;
 }
-
 </style>
  </head>
 
  <body>
  <h2>各運勢の割合 </h2>
 
+<div class=harfMonth>
  ※過去半年の全体のおみくじ運勢結果の割合 <br>
   <c:forEach var ="percent" items ="${resultsPercentList}">
 ${percent}<br>
  </c:forEach>
+</div>
 
+<div class=today>
  ※本日の誕生日のおみくじ運勢結果の割合<br>
  <c:forEach var ="todayPercent" items ="${resultsTodayList}">
 ${todayPercent}<br>
 </c:forEach>
-
-<div class ="buotton">
-<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history .back()">return</button>
 </div>
+
+<div class ="button">
+<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history .back()">RETURN</button>
+</div>
+
 </body>
 </html>

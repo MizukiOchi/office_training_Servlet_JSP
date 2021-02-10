@@ -25,8 +25,50 @@ html {
 	box-sizing: border-box;
 	font-size: 62.5%; /*rem算出をしやすくするために*/
 }
+h2{
+font-size: 20px;
+margin-top: 90px;
+margin-left: 94px;
+}
 
-.btn, a.btn, button.btn {
+table{
+	font-family: arial narrow;
+	font-size: 5px;
+	width: 1050px;
+	height: 150px;
+	margin-top: 100px;
+	margin-left: -280px;
+}
+
+/*テーブルデザイン*/
+.pastData{
+	table-layout: fixed;
+}
+/* ヘッダー */
+.pastData thead th {
+	background:#C4A3BF;
+	font-weight: bold;
+}
+/* ボディ項目・フッター項目 */
+.pastData tbody th,
+.heian-table tfoot th {
+	background:#FEEEED;
+}
+/* ボディデータ・フッターデータ */
+.pastData tbody td,
+.pastData tfoot td {
+	text-align:center;
+}
+/* 偶数行 １行ごとの色変えが不要なら削除 */
+.pastData tr:nth-child(2n) td {
+    background: #C0C0C0;
+}
+/* 偶数行の項目 １行ごとの色変えが不要なら削除 */
+.pastData tr{
+    background: #FBFBF6;
+}
+
+.button, .btn, a.btn, button.btn {
 	font-size: 1.6rem;
 	font-weight: 700;
 	line-height: 1.5;
@@ -44,34 +86,46 @@ html {
 	vertical-align: middle;
 	text-decoration: none;
 	letter-spacing: 0.1em;
-	color: #212529;
+	color: #000000;
 	border-radius: 0.5rem;
+	border: 0px none;
+	font-family: arial narrow;
 }
 
 <%--ボタン--%>
 a.btn--green.btn--emboss {
-	color: #0090bb;
-	fontfamily: Microsoft Sans Serif;
+	color: #000000;
 	text-shadow: -1px -1px 1px 55d8ff;
-	border-bottom: 5px solid #0090bb;
-	background: #00b7ee;
+	border-bottom: 5px solid #C0C0C0;
+	background: #FFFFFF;
 }
 
 a.btn--green.btn--cubic:hover {
 	margin-top: 3px;
-	border-bottom: 2px solid #0090bb;
+	border-bottom: 2px solid #C0C0C0;
+}
+button.btn--green.btn--emboss {
+	color: #000000;
+	text-shadow: -1px -1px 1px 55d8ff;
+	border-bottom: 5px solid #C0C0C0;
+	background: #FFFFFF;
+}
+button.btn--green.btn--cubic:hover {
+	margin-top: 3px;
+	border-bottom: 2px solid #C0C0C0;
 }
 
-.buotton {
-	margin-top: 30px;
-	margin-left: 80px;
+.button{
+	margin-top: 280px;
+	margin-left: 100px;
 }
 </style>
 </head>
 <body>
 	<h2>あなたの過去半年間の占い結果</h2>
-	※いま入力した誕生日を条件に過去半年のおみくじ結果を一覧で取得
-	<table>
+<div class=pastDataTable>
+	<table class=pastData>
+	<thead>
 		<tr>
 			<th>占った日</th>
 			<th>運勢</th>
@@ -79,6 +133,8 @@ a.btn--green.btn--cubic:hover {
 			<th>商い</th>
 			<th>学問</th>
 		</tr>
+		</thead>
+		<tbody>
 		<c:forEach var="omikuji" items="${pastBirhdayResults}">
 			<tr>
 				<td>${omikuji. results_date}</td>
@@ -88,9 +144,11 @@ a.btn--green.btn--cubic:hover {
 				<td>${omikuji.ob.study}</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 	</table>
-	<div class="buotton">
-	<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history.back()">return</button>
+</div>
+	<div class="button">
+	<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history.back()">RETURN</button>
 	</div>
 </body>
 </html>

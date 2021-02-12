@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class InputBirthday
  */
 @WebServlet("/InputBirthday")
+//doGetとdoPostの両方を使用できるようにここで宣言
 public class InputBirthday extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -22,10 +23,10 @@ public class InputBirthday extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType("text/html; charset=UTF-8");
-		// List<String> ErrorMessageList = new ArrayList<String>();
-		// listで受け取って入っている分だけ回す（エラーが増えてもリクエストの処理を増やさなくて済む）
+		// 入力チェックで引っかかったエラー全てを入れるためのlistを用意
 		List<String> ErrorMessageList = (List<String>) request.getAttribute("ErrorMessageList");
-		String birthday = (String)request.getAttribute("birthday");
+		//ここで入力した誕生日の値をChangeToResults.javaクラス(サーブレット)に渡すためにsetしておく
+		String birthday = (String) request.getAttribute("birthday");
 
 		/** htmlで記入する際は、PrintWriterクラスのgerWriter()メソッドを使用する */
 		PrintWriter out = response.getWriter();
@@ -33,8 +34,10 @@ public class InputBirthday extends HttpServlet {
 		out.println("<head>");
 		/** 使用文字の設定 */
 		out.println("<meta charset=\"UTF-8\">");
+
 		/** タブに表示されるタイトル設定 */
 		out.println("<title>おみくじ</title>");
+
 		/** 画面のデザイン設定（<head>内に設定すること） */
 		out.println("<style>");
 		// 共通部品
@@ -43,16 +46,19 @@ public class InputBirthday extends HttpServlet {
 		out.println("margin-top: 200px;");
 		out.println("background: #EEE8AA;");
 		out.println("}");
+
 		// h3で反映される部品
 		out.println("title{");
 		out.println("text-align: center;");
 		out.println("}");
+
 		/**InputImageの全体*/
 		//InputImage部分の設定
 		out.println(".InputImage{");
 		out.println("width: 500px;");
 		out.println("height: 500px;");
 		out.println("}");
+
 		// .balloon部分の設定
 		out.println(".balloon{");
 		out.println("position: relative;");
@@ -83,6 +89,7 @@ public class InputBirthday extends HttpServlet {
 		out.println("border-top: 15px solid #778899;");
 		out.println("z-index: 0;");
 		out.println("}");
+
 		out.println(".balloon p {");
 		out.println("margin: 0;");
 		out.println("padding: 0;");
@@ -98,16 +105,19 @@ public class InputBirthday extends HttpServlet {
 		out.println("width: 300px;");
 		out.println("height: 300px;");
 		out.println("}");
+
 		/**InputBirthdayの全体*/
 		// InputBirthday部分の設定
 		out.println(".InputBirthday{");
 		out.println("float: left;");
 		out.println("}");
+
 		// .errorMessage部分の設定
 		out.println(".errorMessage{");
 		out.println("font-size: 14px;");
 		out.println("color: #CD5C5C;");
 		out.println("}");
+
 		// .explain部分の設定
 		out.println(".explain{");
 		out.println("font-size: 50px");
@@ -121,31 +131,39 @@ public class InputBirthday extends HttpServlet {
 		out.println("<bady>");
 		out.println("<h3 id=\"title\">おみくじ</h3>");
 
-		/**
-		 * 機能② １、右中央に誕生日入力やエラーメッセージのまとまり
-		 */
+		/**エラーメッセージの処理*/
 		out.println("<div class=\"InputBirthday\">");
 		out.println("<p class=\"explain\">Input Your Birthday Here↓</p>");
-		// もしlistにerrorMessageが入っていたらエラーメッセージを全て出力する
+		//上で用意したlist（ErrorMessageList）にエラーメッセージが入っていたら、入っている分だけ回してエラーメッセージを出力
+		//（listに入れることでエラーが増えてもリクエストの処理を増やさなくて済むため）
 		if (ErrorMessageList != null) {
 			for (String ErrorMessage : ErrorMessageList) {
 				out.println("<p class=\"errorMessage\">" + ErrorMessage + "</p>");
 			}
 		}
-		// 誕生日入力テキストと占うボタン
+
+		/**ChangeToResults.java（サーブレット）クラスに飛ぶための処理*/
 		out.println("<form action=\"/office_training_Servlet_JSP/ChangeToResults\" method=\"post\">");
-		if(birthday == null) {
+
+		/**誕生日が入っていなければ空にする処理
+		 * （空にしておかないと初めからnullが表示されるため）
+		 */
+		if (birthday == null) {
 			birthday = "";
 		}
 
-		out.println("<input type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\" value=" + birthday + ">");
+		/**誕生日入力の処理*/
+		//誕生日入力用のテキストの設定
+		out.println("<input type=\"text\" id=\"birthday\" name=\"birthday\" placeholder=\"例：20210107\" value="
+				+ birthday + ">");
+		/**「占う」ボタンの処理*/
+		//「占う」ボタンの設定
 		out.println("<input class=\"button\" type=\"submit\" value=\"占う\"/>");
 		out.println("<form>");
 		out.println("</div>");
 
-		/**
-		 * 機能① １、左上に吹き出し ２、左下に画像
-		 */
+		/**デザイン設定*/
+		 /** 左上に吹き出し・左下に画像*/
 		out.println("<div class=\"InputImage\">");
 		// 吹き出しの挿入
 		out.println("<div class=\"balloon\">");

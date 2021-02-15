@@ -84,10 +84,6 @@ public class halfMonthResults extends HttpServlet {
 		/**１、resultsテーブルから「今日の全データ数」を取得*/
 		double todayDataNum = ResultsDao.receiveTodayResultsData(results_date);
 		/**２、resultsテーブルから「今日の各運勢のデータ数」を取得*/
-		/**
-		 * ⑦resultsテーブルから「今日の各運勢のデータ数」を取得
-		 * ⑧各運勢のデータ数(⑦)÷全体(⑥)
-		 */
 //		配列に各運勢名を入れてfor文を回して、１つずつの運勢でresultsテーブルに当てはまる運勢があるかを検索して、なければ０をここで入れるようにしている。
 		String[] fortune_name = {"大吉","中吉","小吉", "末吉","吉","凶"};
 //		※ここで必ず運勢全てがlistに詰められるようになる

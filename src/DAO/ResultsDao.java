@@ -116,6 +116,7 @@ public class ResultsDao {
 			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
 			while (resultSet.next()) {
 				receiveHalfMonthResultsData = resultSet.getInt("receiveHalfMonthResultsDataNum");
+				System.out.println(receiveHalfMonthResultsData);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

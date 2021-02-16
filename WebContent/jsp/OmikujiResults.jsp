@@ -138,8 +138,8 @@ margin-left: -200px;
 		<img class="panda" src="img/panda.jpg">
 		<div class="button">
 			<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history.back()">RETURN</button>
-			<a class="btn btn--green btn--emboss btn--cubic" href="/office_training_Servlet_JSP/halfMonthResults">RESULTS OF PERCENTAGE</a>
-			<a class="btn btn--green btn--emboss btn--cubic" href="/office_training_Servlet_JSP/sameBirthday">YOUR FORTUNE RESULTS</a>
+			<a class="btn btn--green btn--emboss btn--cubic" href="/office_training_Servlet_JSP/HalfMonthResults">RESULTS OF PERCENTAGE</a>
+			<a class="btn btn--green btn--emboss btn--cubic" href="/office_training_Servlet_JSP/SameBirthday">YOUR FORTUNE RESULTS</a>
 	</div>
 </body>
 </html>

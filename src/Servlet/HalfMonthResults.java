@@ -20,8 +20,8 @@ import DAO.ResultsDao;
 /**
  * Servlet implementation class halfMonthResults
  */
-@WebServlet("/halfMonthResults")
-public class halfMonthResults extends HttpServlet {
+@WebServlet("/HalfMonthResults")
+public class HalfMonthResults extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

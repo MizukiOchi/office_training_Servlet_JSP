@@ -18,8 +18,8 @@ import DAO.ResultsDao;
 /**
  * Servlet implementation class sameBirthday
  */
-@WebServlet("/sameBirthday")
-public class sameBirthday extends HttpServlet {
+@WebServlet("/SameBirthday")
+public class SameBirthday extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

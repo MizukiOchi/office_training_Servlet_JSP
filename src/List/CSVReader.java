@@ -41,7 +41,7 @@ public class CSVReader {
 			// contentsというString型の箱をwhile文の外で作成しておく（※箱は１つで良いため）
 			String[] contents;
 			// CSVファイルの２行目から読み込む(不要な一行目をループ前に読み込んでいる。)
-			bufferedReader.readLine();
+			bufferedReader.readLine(); //←１行ずつ読み込むメソッド
 
 			//読み込んだ値をセットするための変数を用意しておく。
 			int unsei = 0;
@@ -51,15 +51,15 @@ public class CSVReader {
 			String ochi = "越智";
 
 			while ((data = bufferedReader.readLine()) != null) {
-				// 値を分解する
+				// csvファイルの値を分解する
 				contents = data.split(",");
-				// omikuji_idと紐づけるために上から順に番号をつける
-				unsei = JudgeUnseiCode(contents[0]); //JudgeUnseiCodeメソッドで文字列をswitch文を利用して数字に変換したものを使用。（omikuji_idと紐づけるため。）
+				//omikujiテーブルに代入するために値をセットする
+				unsei = JudgeUnseiCode(contents[0]); //←JudgeUnseiCodeメソッドで文字列をswitch文を利用して数字に変換したものを使用。（fortune_idと紐づけるため。）
 				wish = contents[1];
 				business = contents[2];
 				study = contents[3];
 
-				// ①ー４、SQLの実行（csvファイルで読み込んだデータをInsert文にセットしてomikujiテーブルに登録する処理。）
+				//SQLの実行（csvファイルで読み込んだデータをInsert文にセットしてomikujiテーブルに登録する処理。）
 				//DBに書き込むSQL文を変数sqlに代入する。
 				String sql = "INSERT INTO omikuji(omikuji_id,fortune_id, wish, business, study, changer, update_date, author, create_date) values (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp);";
 				//動的に値をセットできるメソッドを呼び出す。
@@ -82,8 +82,8 @@ public class CSVReader {
 	}
 
 /**
- * ●CSVファイルから読み込んだ文字列（fortune_name:大吉・中吉など）をomikuji_idの数字に変換するメソッド
- * （CSVファイルとomikujiテーブルのomikuji_idとfortuneテーブルのomikuji_idとを紐づけるため。）
+ * ●CSVファイルから読み込んだ文字列（fortune_name:大吉・中吉など）をfortune_idの数字に変換するメソッド
+ * （CSVファイルとomikujiテーブルのfortune_idとfortuneテーブルのfortune_idとを紐づけるため。）
  * @param s
  * @return unsei
  */

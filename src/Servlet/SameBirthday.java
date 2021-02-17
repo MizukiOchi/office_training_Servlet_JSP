@@ -27,17 +27,15 @@ public class SameBirthday extends HttpServlet {
 		 * ①今日の日付を取得
 		 */
 		Date today = new Date();
-		java.sql.Date results_date = convert(today);
+		java.sql.Date results_date = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
 
 		/**
 		 * ②今日から半年前の日付を取得
 		 */
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, -6);
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		int date = calendar.get(Calendar.DAY_OF_MONTH);
-		java.sql.Date sqlDate = java.sql.Date.valueOf(year + "-" + (month + 1) + "-" + date);
+		today = calendar.getTime();
+		java.sql.Date sqlDate = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
 
 		/**
 		 * ③いま占った誕生日を全て取得

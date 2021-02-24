@@ -26,18 +26,18 @@ public class HalfMonthResults extends HttpServlet {
 			throws ServletException, IOException {
 
 		/**
-		 * ①、今日の誕生日と過去半年前の日付を取得する
+		 * ①今日の日付を取得
 		 */
-		//本日の日付の取得
 		Date today = new Date();
-		java.sql.Date results_date = convert(today);
-		//今日から半年前の日付の取得
+		java.sql.Date results_date = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
+
+		/**
+		 * ②今日から半年前の日付を取得
+		 */
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, -6);
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		int date = calendar.get(Calendar.DAY_OF_MONTH);
-		java.sql.Date sqlDate = java.sql.Date.valueOf(year + "-" + (month + 1) + "-" + date);
+		today = calendar.getTime();
+		java.sql.Date sqlDate = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
 
 		/**
 		 * ②、過去半年の運勢の割合を取得する

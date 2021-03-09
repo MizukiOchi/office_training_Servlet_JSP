@@ -32,7 +32,10 @@ public class CSVReader {
 			if (connection != null) {
 			}
 			//①ー２、csvファイルを読むクラスを呼び出す
-			File file = new File("/Users/m_ochi/git/office_training_Servlet_JSP/src/Fortune telling.csv");
+			File file = new File("fortuneTelling.csv");
+//			/Applications/Eclipse_2019-09.app/Contents/workspace/office_training_Servlet_JSP/WebContent/WEB-INF/fortuneTelling.csv
+			String abFile = file.getAbsolutePath();
+			System.out.println(abFile);
 			//①ー３、CSVファイルを１行ずつ読み込む
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);

@@ -29,13 +29,17 @@ public class CSVReader {
 		Connection connection = null;
 		try {
 			connection = DBManager.getConnection();
-			if (connection != null) {
-			}
 			//①ー２、csvファイルを読むクラスを呼び出す
-			File file = new File("fortuneTelling.csv");
-//			/Applications/Eclipse_2019-09.app/Contents/workspace/office_training_Servlet_JSP/WebContent/WEB-INF/fortuneTelling.csv
-			String abFile = file.getAbsolutePath();
-			System.out.println(abFile);
+//			@WebServlet("/CSVReader")
+//			//doGetとdoPostの両方を使用できるようにここで宣言
+//			public class CSVReader extends HttpServlet {
+//				protected void doGet(HttpServletRequest request, HttpServletResponse response)
+//						throws ServletException, IOException {
+//					doPost(request, response);
+//				}
+//		    ServletContext sc =request.getContextPath();
+//			String path = sc.getRealPath("WEBINF/fortuneTelling.csv");
+			File file = new File("/Applications/Eclipse_2019-09.app/Contents/workspace/office_training_Servlet_JSP/WebContent/WEB-INF/fortuneTelling.csv");
 			//①ー３、CSVファイルを１行ずつ読み込む
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);

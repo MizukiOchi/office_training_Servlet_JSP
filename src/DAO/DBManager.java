@@ -36,8 +36,6 @@ public class DBManager {
 
 			}
 		}
-		if (connection != null) {
-		}
 		try {
 			connection.close();
 		} catch (SQLException e) {

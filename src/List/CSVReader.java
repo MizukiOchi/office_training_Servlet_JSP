@@ -30,10 +30,23 @@ public class CSVReader {
 		try {
 			connection = DBManager.getConnection();
 			//①ー２、csvファイルを読むクラスを呼び出す
+<<<<<<< HEAD
 
 			File file = new File(path);
 
 //			String path = sc.getRealPath("WEB-INF/fortuneTelling.csv");
+=======
+//			@WebServlet("/CSVReader")
+//			//doGetとdoPostの両方を使用できるようにここで宣言
+//			public class CSVReader extends HttpServlet {
+//				protected void doGet(HttpServletRequest request, HttpServletResponse response)
+//						throws ServletException, IOException {
+//					doPost(request, response);
+//				}
+//		    ServletContext sc =request.getContextPath();
+//			String path = sc.getRealPath("WEBINF/fortuneTelling.csv");
+			File file = new File("/Applications/Eclipse_2019-09.app/Contents/workspace/office_training_Servlet_JSP/WebContent/WEB-INF/fortuneTelling.csv");
+>>>>>>> branch 'master' of https://github.com/MizukiOchi/office_training_Servlet_JSP.git
 			//①ー３、CSVファイルを１行ずつ読み込む
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);

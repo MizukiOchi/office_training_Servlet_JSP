@@ -63,10 +63,10 @@ public class ChangeToResults extends HttpServlet {
 			 * ＝その結果を出力すれば良いということになる）
 			 * @return resultsBean
 			 */
-			// 
+			//
 			ResultsBean rb = ResultsDao.selectByBirthday(results_date, birthday);
 			String omikuji_id = rb.getOmikuji_id();
-
+			String path =this.getServletContext().getRealPath("/WEB-INF/fortuneTelling.csv");
 			/**
 			 * resultsテーブルに入力した結果がない場合→おみくじを生成する
 			 * １、もしomikujiテーブルにデータがなければ、omikujiテーブルのデータを書き込むメソッドを呼ぶ
@@ -80,7 +80,8 @@ public class ChangeToResults extends HttpServlet {
 				// もしomikujiテーブルにデータがなければ、omikujiテーブルのデータを書き込むメソッド(OmikujiDao.count())を呼ぶ
 				int omikujiCnt = OmikujiDao.count();
 				if (omikujiCnt == 0) {
-					CSVReader.readCsv();
+					CSVReader.readCsv(path);
+
 					// omikujiテーブルにデータを入れた後、もう一度omikujiテーブルのデータ数を数える。
 					omikujiCnt = OmikujiDao.count();
 				}

@@ -17,7 +17,7 @@ import DAO.DBManager;
  *
  */
 public class CSVReader {
-	public static void readCsv() throws IOException {
+	public static void readCsv(String path) throws IOException {
 		/**
 		 * ①Fortune telling.csvファイルを読み込んでomikujiテーブルに追加する。
 		 * １、JDBCを使用してDBに接続
@@ -29,10 +29,11 @@ public class CSVReader {
 		Connection connection = null;
 		try {
 			connection = DBManager.getConnection();
-			if (connection != null) {
-			}
 			//①ー２、csvファイルを読むクラスを呼び出す
-			File file = new File("/Users/m_ochi/git/office_training_Servlet_JSP/src/Fortune telling.csv");
+
+			File file = new File(path);
+
+//			String path = sc.getRealPath("WEB-INF/fortuneTelling.csv");
 			//①ー３、CSVファイルを１行ずつ読み込む
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);

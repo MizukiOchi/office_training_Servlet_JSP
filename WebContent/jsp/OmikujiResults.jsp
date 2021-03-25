@@ -125,7 +125,7 @@ margin-left: -200px;
 			OmikujiBean omikuji = (OmikujiBean) request.getAttribute("results");
 		%>
 		<div class="title">あなたの今日の運勢は、</div>
-		<div class="unsei"><%=omikuji.getFortune_name()%>
+		<div class="unsei"><%=omikuji.getFortuneName()%>
 		</div>
 		<div class="wish">
 			願い事：<%=omikuji.getWish()%></div>

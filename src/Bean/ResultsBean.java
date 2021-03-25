@@ -4,32 +4,32 @@ import java.sql.Date;
 
 public class ResultsBean {
 
-	private Date results_date;
-	private String omikuji_id;
+	private Date resultsDate;
+	private String omikujiId;
 	private String birthday;
 	private String changer;
-	private String update_date;
+	private String updateDate;
 	private String author;
-	private String create_date;
+	private String createDate;
 	private int receiveHalfMonthResultsData;
 	private String todaysBirthday;
 	private OmikujiBean ob;
 	private int receiveTodayResultsDataNum;
 
-	public Date getResults_date() {
-		return results_date;
+	public Date getResultsDate() {
+		return resultsDate;
 	}
 
-	public void setResults_date(Date results_date) {
-		this.results_date = results_date;
+	public void setResultsDate(Date resultsDate) {
+		this.resultsDate = resultsDate;
 	}
 
-	public String getOmikuji_id() {
-		return omikuji_id;
+	public String getOmikujiId() {
+		return omikujiId;
 	}
 
-	public void setOmikuji_id(String omikuji_id) {
-		this.omikuji_id = omikuji_id;
+	public void setOmikujiId(String omikujiId) {
+		this.omikujiId = omikujiId;
 	}
 
 	public String getBirthday() {
@@ -48,12 +48,12 @@ public class ResultsBean {
 		this.changer = changer;
 	}
 
-	public String getUpdate_date() {
-		return update_date;
+	public String getUpdateDate() {
+		return updateDate;
 	}
 
-	public void setUpdate_date(String update_date) {
-		this.update_date = update_date;
+	public void setUpdateDate(String update_date) {
+		this.updateDate = update_date;
 	}
 
 	public String getAuthor() {
@@ -64,12 +64,12 @@ public class ResultsBean {
 		this.author = author;
 	}
 
-	public String getCreate_date() {
-		return create_date;
+	public String getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreate_date(String create_date) {
-		this.create_date = create_date;
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
 	}
 
 	public int getReceiveHalfMonthResultsData() {
@@ -109,9 +109,9 @@ public class ResultsBean {
 	 */
 	@Override
 	public String toString() {
-		return "ResultsBean [results_date=" + results_date + ", omikuji_id=" + omikuji_id + ", birthday=" + birthday
-				+ ", changer=" + changer + ", update_date=" + update_date + ", author=" + author + ", create_date="
-				+ create_date + "]";
+		return "ResultsBean [results_date=" + resultsDate + ", omikuji_id=" + omikujiId + ", birthday=" + birthday
+				+ ", changer=" + changer + ", update_date=" + updateDate + ", author=" + author + ", create_date="
+				+ createDate + "]";
 	}
 
 }

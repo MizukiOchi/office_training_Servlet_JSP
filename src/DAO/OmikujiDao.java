@@ -11,12 +11,12 @@ import Bean.OmikujiBean;
 
 public class OmikujiDao {
 	/**
-	 * ●omikuji_idを条件におみくじを検索するメソッド
+	 * ●omikujiIdを条件におみくじを検索するメソッド
 	 *（出力できるようにfortuneテーブルと結合している）
-	 * @param omikuji_id
+	 * @param omikujiId
 	 * @return omikujiBean
 	 */
-	public static OmikujiBean selectByOmikuji(String omikuji_id) {
+	public static OmikujiBean selectByOmikuji(String omikujiId) {
 
 		Connection connection = null;
 		PreparedStatement ps = null;
@@ -28,22 +28,22 @@ public class OmikujiDao {
 			String sql = "SELECT f.fortune_id, f.fortune_name, f.changer, f.update_date, f.author, f.create_date, o.omikuji_id, o.fortune_id, o.wish, o.business, o.study,o.changer, o.update_date, o.author, o.create_date FROM fortune f LEFT OUTER JOIN omikuji o ON f.fortune_id = o.fortune_id WHERE o.omikuji_id = ?;";
 			// PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, omikuji_id);
+			preparedStatement.setString(1, omikujiId);
 			// resultsテーブルから値を取得
 			ResultSet resultSet = preparedStatement.executeQuery();
 			// ③ー２、結果ファイルを１行ずつ読む。
 			while (resultSet.next()) {
 				// // resultsテーブルを１行ずつ読み込んで出力する
-				omikujiBean.setOmikuji_id(resultSet.getString("omikuji_id"));
-				omikujiBean.setFortune_id(resultSet.getString("fortune_id"));
+				omikujiBean.setOmikujiId(resultSet.getString("omikuji_id"));
+				omikujiBean.setFortuneId(resultSet.getString("fortune_id"));
 				omikujiBean.setWish(resultSet.getString("wish"));
 				omikujiBean.setBusiness(resultSet.getString("business"));
 				omikujiBean.setStudy(resultSet.getString("study"));
 				omikujiBean.setChanger(resultSet.getString("changer"));
-				omikujiBean.setUpdate_date(resultSet.getString("update_date"));
+				omikujiBean.setUpdateDate(resultSet.getString("update_date"));
 				omikujiBean.setAuthor(resultSet.getString("author"));
-				omikujiBean.setCreate_date(resultSet.getString("create_date"));
-				omikujiBean.setFortune_name(resultSet.getString("fortune_name"));
+				omikujiBean.setCreateDate(resultSet.getString("create_date"));
+				omikujiBean.setFortuneName(resultSet.getString("fortune_name"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,7 +99,7 @@ public class OmikujiDao {
 	 * @param receiveHalfMonthResultsFortuneData
 	 * @return receiveHalfMonthResultsFortuneData
 	 */
-	public static List<OmikujiBean> receiveHalfMonthResultsFortuneData(Date sqlDate, Date results_date, String hfortuneName) {
+	public static List<OmikujiBean> receiveHalfMonthResultsFortuneData(Date sqlDate, Date resultsDate, String hfortuneName) {
 
 		Connection connection = null; // 特定のDBとの接続
 		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
@@ -113,7 +113,7 @@ public class OmikujiDao {
 			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
 			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			preparedStatement.setDate(1, sqlDate); // ②ー１
-			preparedStatement.setDate(2, results_date); // ②ー２
+			preparedStatement.setDate(2, resultsDate); // ②ー２
 			preparedStatement.setString(3, hfortuneName);
 			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -121,8 +121,8 @@ public class OmikujiDao {
 			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
 			while (resultSet.next()) {
 				OmikujiBean omikujiBean = new OmikujiBean();
-				omikujiBean.setFortune_name(resultSet.getString("fortune_name"));
-				omikujiBean.setHmr_fortune_data_num(resultSet.getString("hmr_fortune_data_num"));
+				omikujiBean.setFortuneName(resultSet.getString("fortune_name"));
+				omikujiBean.setHmrFortuneDataNum(resultSet.getString("hmr_fortune_data_num"));
 				receiveHalfMonthResultsFortuneData.add(omikujiBean);
 			}
 		} catch (Exception e) {
@@ -139,7 +139,7 @@ public class OmikujiDao {
 	 * @param receiveTodayResultsFortuneData
 	 * @return receiveTodayResultsFortuneData
 	 */
-	public static List<OmikujiBean> receiveTodayResultsFortuneData(Date results_date, String fortune_name) {
+	public static List<OmikujiBean> receiveTodayResultsFortuneData(Date resultsDate, String fortuneName) {
 
 		Connection connection = null; // 特定のDBとの接続
 		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
@@ -152,16 +152,16 @@ public class OmikujiDao {
 			String sql = "SELECT f.fortune_name, COUNT(*) AS tdr_fortune_data_num FROM results r LEFT OUTER JOIN omikuji o ON r.omikuji_id = o.omikuji_id LEFT OUTER JOIN fortune f ON o.fortune_id = f.fortune_id WHERE r.results_date = ? AND f.fortune_name = ? GROUP BY f.fortune_id ORDER BY f.fortune_id ASC ;";
 			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
 			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
-			preparedStatement.setDate(1, results_date);
-			preparedStatement.setString(2, fortune_name);
+			preparedStatement.setDate(1, resultsDate);
+			preparedStatement.setString(2, fortuneName);
 			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
 			ResultSet resultSet = preparedStatement.executeQuery();
 			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
 			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
 			while (resultSet.next()) {
 				OmikujiBean omikujiBean = new OmikujiBean();
-				omikujiBean.setFortune_name(resultSet.getString("fortune_name"));
-				omikujiBean.setHmr_fortune_data_num(resultSet.getString("tdr_fortune_data_num"));
+				omikujiBean.setFortuneName(resultSet.getString("fortune_name"));
+				omikujiBean.setHmrFortuneDataNum(resultSet.getString("tdr_fortune_data_num"));
 				receiveTodayResultsFortuneData.add(omikujiBean);
 			}
 		} catch (Exception e) {

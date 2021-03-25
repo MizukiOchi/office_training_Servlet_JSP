@@ -54,7 +54,7 @@ public class ChangeToResults extends HttpServlet {
 			 * 今日の日付を取得する
 			 */
 			Date date = new Date();
-			java.sql.Date results_date = convert(date);
+			java.sql.Date resultsDate = convert(date);
 
 			/**
 			 * resultsテーブルから誕生日・本日の日付を条件にデータを取得する。
@@ -65,8 +65,8 @@ public class ChangeToResults extends HttpServlet {
 			 * @return resultsBean
 			 */
 			//
-			ResultsBean rb = ResultsDao.selectByBirthday(results_date, birthday);
-			String omikuji_id = rb.getOmikuji_id();
+			ResultsBean rb = ResultsDao.selectByBirthday(resultsDate, birthday);
+			String omikujiId = rb.getOmikujiId();
 			String path =this.getServletContext().getRealPath("/WEB-INF/fortuneTelling.csv");
 //<<<<<<< HEAD
 			//CSVReaderで使用できるように用意する
@@ -84,7 +84,7 @@ public class ChangeToResults extends HttpServlet {
 			 * ３、resultsテーブルに⑤ー２、で取得したデータを登録する（omikuji_id, results_date, birthday）
 			 * ４、コンソールに⑤−２、で取得したデータを出力する。
 			 */
-			if (omikuji_id == null) {
+			if (omikujiId == null) {
 
 				// もしomikujiテーブルにデータがなければ、omikujiテーブルのデータを書き込むメソッド(OmikujiDao.count())を呼ぶ
 				int omikujiCnt = OmikujiDao.count();
@@ -107,20 +107,20 @@ public class ChangeToResults extends HttpServlet {
 				Random random = new Random();
 				// DBの接続して、randomの引数をSQLのCountを使用して取得する
 				int randomValue = random.nextInt(omikujiCnt) + 1; // メソッドが０からカウントされるため、メソッド（）＋１をする
-				omikuji_id = Integer.toString(randomValue);
+				omikujiId = Integer.toString(randomValue);
 
 				/**
 				 * 取得したresults_date・omikuji_id・birthdayを動的にINSERTする
 				 */
 				// 取得したomikuji_id・birthday・results_dateをresultsテーブルにINSERTする
-				ResultsDao.insertResults(results_date, omikuji_id, birthday);
+				ResultsDao.insertResults(resultsDate, omikujiId, birthday);
 			}
 
 			/**
 			 * omikuji_idを条件にomikujiテーブルからデータを取得
 			 */
 			// omikuji_idを条件にomikujiテーブルからデータを取得
-			OmikujiBean oi = OmikujiDao.selectByOmikuji(omikuji_id);
+			OmikujiBean oi = OmikujiDao.selectByOmikuji(omikujiId);
 			//		System.out.println(oi.getFortune_name());
 			//jspで画面に出力する。
 			request.setAttribute("results", oi);
@@ -169,10 +169,10 @@ public class ChangeToResults extends HttpServlet {
 	 * （本日の日付を求めるため、utilクラスのDate型をDaoと同じsqlクラスのDate型に変更する必要があるため。）
 	 *
 	 * @param uDate
-	 * @return result_date
+	 * @return resultDate
 	 */
 	private static java.sql.Date convert(java.util.Date utilDate) {
-		java.sql.Date result_date = new java.sql.Date(utilDate.getTime());
-		return result_date;
+		java.sql.Date resultDate = new java.sql.Date(utilDate.getTime());
+		return resultDate;
 	}
 }

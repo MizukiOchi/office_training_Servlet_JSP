@@ -3,41 +3,41 @@ package Bean;
 public class OmikujiBean {
 
 	// カラム全て作成
-	private String omikuji_id;
-	private String fortune_id;
+	private String omikujiId;
+	private String fortuneId;
 	private String wish;
 	private String business;
 	private String study;
 	private String changer;
-	private String update_date;
+	private String updateDate;
 	private String author;
-	private String create_date;
-	private String fortune_name;
-	private String hmr_fortune_data_num;
-	private String tdr_fortune_data_num;
+	private String createDate;
+	private String fortuneName;
+	private String hmrFortuneDataNum;
+	private String tdrFortuneDataNum;
 
-	public String getTdr_fortune_data_num() {
-		return tdr_fortune_data_num;
+	public String getTdrFortuneDataNum() {
+		return tdrFortuneDataNum;
 	}
 
-	public void setTdr_fortune_data_num(String tdr_fortune_data_num) {
-		this.tdr_fortune_data_num = tdr_fortune_data_num;
+	public void setTdrFortuneDataNum(String tdrFortuneDataNum) {
+		this.tdrFortuneDataNum = tdrFortuneDataNum;
 	}
 
-	public String getOmikuji_id() {
-		return omikuji_id;
+	public String getOmikujiId() {
+		return omikujiId;
 	}
 
-	public void setOmikuji_id(String omikuji_id) {
-		this.omikuji_id = omikuji_id;
+	public void setOmikujiId(String omikujiId) {
+		this.omikujiId = omikujiId;
 	}
 
-	public String getFortune_id() {
-		return fortune_id;
+	public String getFortuneId() {
+		return fortuneId;
 	}
 
-	public void setFortune_id(String fortune_id) {
-		this.fortune_id = fortune_id;
+	public void setFortuneId(String fortuneId) {
+		this.fortuneId = fortuneId;
 	}
 
 	public String getWish() {
@@ -72,12 +72,12 @@ public class OmikujiBean {
 		this.changer = changer;
 	}
 
-	public String getUpdate_date() {
-		return update_date;
+	public String getUpdateDate() {
+		return updateDate;
 	}
 
-	public void setUpdate_date(String update_date) {
-		this.update_date = update_date;
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getAuthor() {
@@ -88,28 +88,28 @@ public class OmikujiBean {
 		this.author = author;
 	}
 
-	public String getCreate_date() {
-		return create_date;
+	public String getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreate_date(String create_date) {
-		this.create_date = create_date;
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
 	}
 
-	public String getFortune_name() {
-		return fortune_name;
+	public String getFortuneName() {
+		return fortuneName;
 	}
 
-	public void setFortune_name(String fortune_name) {
-		this.fortune_name = fortune_name;
+	public void setFortuneName(String fortuneName) {
+		this.fortuneName = fortuneName;
 	}
 
-	public String getHmr_fortune_data_num() {
-		return hmr_fortune_data_num;
+	public String getHmrFortuneDataNum() {
+		return hmrFortuneDataNum;
 	}
 
-	public void setHmr_fortune_data_num(String hmr_fortune_data_num) {
-		this.hmr_fortune_data_num = hmr_fortune_data_num;
+	public void setHmrFortuneDataNum(String hmrFortuneDataNum) {
+		this.hmrFortuneDataNum = hmrFortuneDataNum;
 	}
 
 }

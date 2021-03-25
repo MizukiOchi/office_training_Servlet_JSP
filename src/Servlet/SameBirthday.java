@@ -27,7 +27,7 @@ public class SameBirthday extends HttpServlet {
 		 * ①今日の日付を取得
 		 */
 		Date today = new Date();
-		java.sql.Date results_date = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
+		java.sql.Date resultsDate = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
 
 		/**
 		 * ②今日から半年前の日付を取得
@@ -43,7 +43,7 @@ public class SameBirthday extends HttpServlet {
 		HttpSession session = request.getSession();
 		String birthday = (String) session.getAttribute("birthday");
 		List<ResultsBean> pastBirhdayResults = ResultsDao.pastBirhdayResults(sqlDate,
-				results_date, birthday);
+				resultsDate, birthday);
 
 		request.setAttribute("pastBirhdayResults", pastBirhdayResults);
 		request.getRequestDispatcher("/jsp/JsameBirthday.jsp").forward(request, response);
@@ -54,11 +54,11 @@ public class SameBirthday extends HttpServlet {
 	 * （本日の日付を求めるため、utilクラスのDate型をDaoと同じsqlクラスのDate型に変更する必要があるため。）
 	 *
 	 * @param uDate
-	 * @return result_date
+	 * @return resultDate
 	 */
 	private static java.sql.Date convert(java.util.Date utilDate) {
-		java.sql.Date result_date = new java.sql.Date(utilDate.getTime());
-		return result_date;
+		java.sql.Date resultDate = new java.sql.Date(utilDate.getTime());
+		return resultDate;
 	}
 
 }

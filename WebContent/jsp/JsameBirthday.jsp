@@ -152,8 +152,8 @@ button.btn--green.btn--cubic:hover {
 		<tbody>
 		<c:forEach var="omikuji" items="${pastBirhdayResults}">
 			<tr>
-				<td class="fixed01">${omikuji. results_date}</td>
-				<td class="fixed01">${omikuji.ob.fortune_name}</td>
+				<td class="fixed01">${omikuji. resultsDate}</td>
+				<td class="fixed01">${omikuji.ob.fortuneName}</td>
 				<td class="fixed01">${omikuji.ob.wish}</td>
 				<td class="fixed01">${omikuji.ob.business}</td>
 				<td class="fixed01">${omikuji.ob.study}</td>

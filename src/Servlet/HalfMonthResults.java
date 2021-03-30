@@ -47,23 +47,23 @@ public class HalfMonthResults extends HttpServlet {
 		/**２、resultsテーブルから「今日から過去半年間の各運勢のデータ数」を取得*/
 		//全運勢が出力されるようにするための処理。
 		//（配列に各運勢名を入れてfor文を回して、１つずつ運勢を条件にresultsテーブルから当てはまる運勢名があるかを検索して、なければ０を代入。）
-		String[] arrayHfortuneName = {"大吉","中吉","小吉", "末吉","吉","凶"};
+//		String[] arrayHfortuneName = {"大吉","中吉","小吉", "末吉","吉","凶"};
 		//※必ず運勢全てが詰められるように用意したlist。
 		List<OmikujiBean> receiveHarfMonthResultsFortuneData = new ArrayList<OmikujiBean>();
 		//配列(arrayHfortuneName)に詰めた運勢を１つずつ回す。
-		for (String hfortuneName : arrayHfortuneName) {
+//		for (String hfortuneName : arrayHfortuneName) {
 			//ここで一致する運勢があればOmikujiDaoから取ってきた物をそのままhreceiveDataListに詰めて、
 			//なければ運勢名と運勢数０(ゼロ)を代入してhreceiveDataListに詰める。
-			List<OmikujiBean> hreceiveDataList = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, resultsDate, hfortuneName);
-			if(!hreceiveDataList.isEmpty()) {
+			List<OmikujiBean> hreceiveDataList = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, resultsDate);
+//			if(	!hreceiveDataList.isEmpty()) {
 				receiveHarfMonthResultsFortuneData.addAll(hreceiveDataList);
-			}else if(hreceiveDataList.isEmpty()){
-				OmikujiBean omikujiBean = new OmikujiBean();
-				omikujiBean.setFortuneName(hfortuneName);
-				omikujiBean.setHmrFortuneDataNum("0");
-				receiveHarfMonthResultsFortuneData.add(omikujiBean);
-			}
-		}
+//			}else if(hreceiveDataList.isEmpty()){
+//				OmikujiBean omikujiBean = new OmikujiBean();
+//				omikujiBean.setFortuneName(hfortuneName);
+//				omikujiBean.setHmrFortuneDataNum("0");
+//				receiveHarfMonthResultsFortuneData.add(omikujiBean);
+//			}
+//		}
 		/**３、過去半年の運勢割合の計算する処理。*/
 		List<String> resultPercent = new ArrayList<String>();
 		String hfortuneNumName = "";
@@ -85,25 +85,26 @@ public class HalfMonthResults extends HttpServlet {
 		double todayDataNum = ResultsDao.receiveTodayResultsData(resultsDate);
 		/**２、resultsテーブルから「今日の各運勢のデータ数」を取得*/
 //		配列に各運勢名を入れてfor文を回して、１つずつの運勢でresultsテーブルに当てはまる運勢があるかを検索して、なければ０をここで入れるようにしている。
-		String[] arrayFortuneName = {"大吉","中吉","小吉", "末吉","吉","凶"};
+//		String[] arrayFortuneName = {"大吉","中吉","小吉", "末吉","吉","凶"};
 //		※ここで必ず運勢全てがlistに詰められるようになる
 		List<OmikujiBean> receiveTodayResultsFortuneData = new ArrayList<OmikujiBean>();
 //		配列に詰めた運勢を１つずつ回す
-		for (String fortuneName : arrayFortuneName) {
+//		for (String fortuneName : arrayFortuneName) {
 //			もし、for文で回っている運勢と一致する運勢名がresultsテーブルに入っていたらlistに取ってきた値（resultsテーブルにある各運勢の数）を積める
-			List<OmikujiBean> receiveDataList = OmikujiDao.receiveTodayResultsFortuneData(resultsDate, fortuneName);
-			if(!receiveDataList.isEmpty()) {
+			List<OmikujiBean> receiveDataList = OmikujiDao.receiveTodayResultsFortuneData(resultsDate);
+//			if(!receiveDataList.isEmpty()) {
 				receiveTodayResultsFortuneData.addAll(receiveDataList);
 //				System.out.println(receiveTodayResultsFortuneData);
-			}else if(receiveDataList.isEmpty()){
-				OmikujiBean omikujiBean = new OmikujiBean();
-				omikujiBean.setFortuneName(fortuneName);
-				omikujiBean.setHmrFortuneDataNum("0");
-				receiveTodayResultsFortuneData.add(omikujiBean);
+//			}else if(receiveDataList.isEmpty()){
+//				OmikujiBean omikujiBean = new OmikujiBean();
+//				omikujiBean.setFortuneName(fortuneName);
+//				omikujiBean.setHmrFortuneDataNum("0");
+//				receiveTodayResultsFortuneData.add(omikujiBean);
 //				System.out.println(receiveTodayResultsFortuneData);
-			}
-		}
-		List<String> resultsTodayList = new ArrayList<String>();
+//			}
+//		}
+		List<String> resultsTodayList = new ArrayList <String>();
+
 
 		String tFortuneNumName = "";
 		double tFortuneNum = 0;
@@ -112,9 +113,10 @@ public class HalfMonthResults extends HttpServlet {
 			tFortuneNumName = receiveFortuneBean.getFortuneName();
 			tFortuneNum = Double.parseDouble(receiveFortuneBean.getHmrFortuneDataNum());
 			tRoundingPercent = ((double)Math.round(tFortuneNum / todayDataNum * 100 * 10)) / 10;
-			String todayPercent = tFortuneNumName + ":" + tRoundingPercent + "%";
-//			System.out.println(todayPercent);
-			resultsTodayList.add(todayPercent);
+//			List<String> todayPercent = new ArrayList<String>();
+//		 todayPercent.add(tFortuneNumName);
+//		 todayPercent.add(tRoundingPercent + "%");
+			resultsTodayList.add(tRoundingPercent + "%");
 //			System.out.println(resultsTodayList);
 		}
 

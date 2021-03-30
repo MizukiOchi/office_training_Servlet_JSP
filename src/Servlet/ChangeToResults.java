@@ -72,7 +72,7 @@ public class ChangeToResults extends HttpServlet {
 			//CSVReaderで使用できるように用意する
 //			String csvReader = CSVReader.readCsv(realPath);
 //			ServletContext sc =request.getContextPath();
-			String realPath = this.getServletContext().getRealPath("WEB-INF/fortuneTelling.csv");
+//			String realPath = this.getServletContext().getRealPath("WEB-INF/fortuneTelling.csv");
 
 //=======
 //>>>>>>> refs/remotes/origin/master

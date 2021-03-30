@@ -42,7 +42,7 @@ table{
 	border-spacing: 0;
 }
 
-/*テーブルデザイン*/
+<%--テーブルデザイン--%>
 .pastData{
 	table-layout: auto;
 }
@@ -57,19 +57,19 @@ tbody{
 width: 300px;
 }
 
-/* ヘッダー */
+<%--ヘッダー --%>
 .pastData thead th {
 	background:#C4A3BF;
 	font-weight: bold;
 	text-align: center;
 }
 
-/* ボディ項目・フッター項目 */
+<%--ボディ項目・フッター項目 --%>
 .pastData tbody th,
 .pastData tfoot th {
 	background:#FEEEED;
 }
-/* ボディデータ・フッターデータ */
+<%--ボディデータ・フッターデータ --%>
 .pastData tbody td,
 .pastData tfoot td {
 	text-align:center;
@@ -161,6 +161,7 @@ button.btn--green.btn--cubic:hover {
 		</c:forEach>
 		</tbody>
 	</table>
+
 	<div class="button">
 	<button class="btn btn--green btn--emboss btn--cubic" type=button onclick="history.back()">RETURN</button>
 	</div>

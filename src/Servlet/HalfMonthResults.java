@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -103,7 +105,7 @@ public class HalfMonthResults extends HttpServlet {
 //				System.out.println(receiveTodayResultsFortuneData);
 //			}
 //		}
-		List<String> resultsTodayList = new ArrayList <String>();
+		List<Map<String,String>> resultsTodayList = new ArrayList <Map<String,String>>();
 
 
 		String tFortuneNumName = "";
@@ -116,12 +118,19 @@ public class HalfMonthResults extends HttpServlet {
 //			List<String> todayPercent = new ArrayList<String>();
 //		 todayPercent.add(tFortuneNumName);
 //		 todayPercent.add(tRoundingPercent + "%");
-			resultsTodayList.add(tRoundingPercent + "%");
+			Map<String,String> map = new HashMap<String, String>();
+			map.put("unseimei", tFortuneNumName);
+			map.put("wariai", tRoundingPercent + "%");
+			System.out.println(map.get("unseimei"));
+			System.out.println(map.get("wariai"));
+			resultsTodayList.add(map);
 //			System.out.println(resultsTodayList);
 		}
 
 		request.setAttribute("resultsPercentList", resultPercent);
+
 		request.setAttribute("resultsTodayList", resultsTodayList);
+
 		request.getRequestDispatcher("/jsp/JhalfMonthResults.jsp").forward(request, response);
 
 	}

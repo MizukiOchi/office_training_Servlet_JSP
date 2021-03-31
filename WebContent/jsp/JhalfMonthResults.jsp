@@ -153,23 +153,22 @@ tbody {
 		<table class=severalDataTable>
 			<thead>
 				<tr>
-					<th class="fixed01">大吉</th>
-					<th class="fixed01">中吉</th>
-					<th class="fixed01">小吉</th>
-					<th class="fixed01">末吉</th>
-					<th class="fixed01">吉</th>
-					<th class="fixed01">凶</th>
+				<c:forEach var="percent" items="${resultsTodayList}">
+					<th class="fixed01">
+					<c:out value="${percent.unseimei}" />
+					</th>
+					</c:forEach>
 				</tr>
 			</thead>
 			<tbody>
 					<tr>
-						<td class="fixed01">${resultsTodayList[0]}</td>
-						<td class="fixed01">${resultsTodayList[1]}</td>
-						<td class="fixed01">${resultsTodayList[2]}</td>
-						<td class="fixed01">${resultsTodayList[3]}</td>
-						<td class="fixed01">${resultsTodayList[4]}</td>
-						<td class="fixed01">${resultsTodayList[5]}</td>
+					<c:forEach var="percent" items="${resultsTodayList}">
+						<td class="fixed01">
+						<c:out value="${percent.wariai}" />
+						</td>
+					</c:forEach>
 					</tr>
+
 				</tbody>
 				</table>
 </div>

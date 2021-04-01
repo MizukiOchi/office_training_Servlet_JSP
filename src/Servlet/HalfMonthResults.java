@@ -57,17 +57,9 @@ public class HalfMonthResults extends HttpServlet {
 			//ここで一致する運勢があればOmikujiDaoから取ってきた物をそのままhreceiveDataListに詰めて、
 			//なければ運勢名と運勢数０(ゼロ)を代入してhreceiveDataListに詰める。
 			List<OmikujiBean> hreceiveDataList = OmikujiDao.receiveHalfMonthResultsFortuneData(sqlDate, resultsDate);
-//			if(	!hreceiveDataList.isEmpty()) {
 				receiveHarfMonthResultsFortuneData.addAll(hreceiveDataList);
-//			}else if(hreceiveDataList.isEmpty()){
-//				OmikujiBean omikujiBean = new OmikujiBean();
-//				omikujiBean.setFortuneName(hfortuneName);
-//				omikujiBean.setHmrFortuneDataNum("0");
-//				receiveHarfMonthResultsFortuneData.add(omikujiBean);
-//			}
-//		}
+				List<Map<String,String>> resultPercent = new ArrayList <Map<String,String>>();
 		/**３、過去半年の運勢割合の計算する処理。*/
-		List<String> resultPercent = new ArrayList<String>();
 		String hfortuneNumName = "";
 		double hfortuneNum = 0;
 		double hroundingPercent = 0;
@@ -77,8 +69,12 @@ public class HalfMonthResults extends HttpServlet {
 			hfortuneNumName = receiveFortuneBean.getFortuneName();
 			hfortuneNum = Double.parseDouble(receiveFortuneBean.getHmrFortuneDataNum());
 			hroundingPercent = ((double)Math.round(hfortuneNum / halfMonthDataNum * 100 * 10)) / 10;
-			String percent = hfortuneNumName + ":" + hroundingPercent + "%";
-			resultPercent.add(percent);
+			Map<String,String> map = new HashMap<String, String>();
+			map.put("hUnseimei", hfortuneNumName);
+			map.put("hWariai", hroundingPercent + "%");
+//			System.out.println(map.get("hUnseimei"));
+//			System.out.println(map.get("hWariai"));
+			resultPercent.add(map);
 		}
 		/**
 		 * ③、本日の運勢データの割合を取得する
@@ -91,23 +87,11 @@ public class HalfMonthResults extends HttpServlet {
 //		※ここで必ず運勢全てがlistに詰められるようになる
 		List<OmikujiBean> receiveTodayResultsFortuneData = new ArrayList<OmikujiBean>();
 //		配列に詰めた運勢を１つずつ回す
-//		for (String fortuneName : arrayFortuneName) {
 //			もし、for文で回っている運勢と一致する運勢名がresultsテーブルに入っていたらlistに取ってきた値（resultsテーブルにある各運勢の数）を積める
 			List<OmikujiBean> receiveDataList = OmikujiDao.receiveTodayResultsFortuneData(resultsDate);
-//			if(!receiveDataList.isEmpty()) {
-				receiveTodayResultsFortuneData.addAll(receiveDataList);
-//				System.out.println(receiveTodayResultsFortuneData);
-//			}else if(receiveDataList.isEmpty()){
-//				OmikujiBean omikujiBean = new OmikujiBean();
-//				omikujiBean.setFortuneName(fortuneName);
-//				omikujiBean.setHmrFortuneDataNum("0");
-//				receiveTodayResultsFortuneData.add(omikujiBean);
-//				System.out.println(receiveTodayResultsFortuneData);
-//			}
-//		}
+			receiveTodayResultsFortuneData.addAll(receiveDataList);
+
 		List<Map<String,String>> resultsTodayList = new ArrayList <Map<String,String>>();
-
-
 		String tFortuneNumName = "";
 		double tFortuneNum = 0;
 		double tRoundingPercent = 0;
@@ -115,16 +99,12 @@ public class HalfMonthResults extends HttpServlet {
 			tFortuneNumName = receiveFortuneBean.getFortuneName();
 			tFortuneNum = Double.parseDouble(receiveFortuneBean.getHmrFortuneDataNum());
 			tRoundingPercent = ((double)Math.round(tFortuneNum / todayDataNum * 100 * 10)) / 10;
-//			List<String> todayPercent = new ArrayList<String>();
-//		 todayPercent.add(tFortuneNumName);
-//		 todayPercent.add(tRoundingPercent + "%");
 			Map<String,String> map = new HashMap<String, String>();
 			map.put("unseimei", tFortuneNumName);
 			map.put("wariai", tRoundingPercent + "%");
-			System.out.println(map.get("unseimei"));
-			System.out.println(map.get("wariai"));
+//			System.out.println(map.get("unseimei"));
+//			System.out.println(map.get("wariai"));
 			resultsTodayList.add(map);
-//			System.out.println(resultsTodayList);
 		}
 
 		request.setAttribute("resultsPercentList", resultPercent);

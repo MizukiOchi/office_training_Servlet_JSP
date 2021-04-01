@@ -130,20 +130,22 @@ tbody {
 	<table class=AllDataTable>
 		<thead>
 			<tr>
-				<th class="fixed01">大吉</th>
-				<th class="fixed01">中吉</th>
-				<th class="fixed01">小吉</th>
-				<th class="fixed01">末吉</th>
-				<th class="fixed01">吉</th>
-				<th class="fixed01">凶</th>
+			<c:forEach var="hPercent" items="${resultPercent}">
+				<th class="fixed01">
+				<c:out value="${hPercent.hUnseimei}" />
+				</th>
+				</c:forEach>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="percent" items="${resultsPercentList}">
+
 				<tr>
-					<td class="fixed01">${percent}</td>
+				<c:forEach var="hPercent" items="${resultsPercentList}">
+					<td class="fixed01">
+					<c:out value="${hPercent.hWariai}" />
+					</td>
+					</c:forEach>
 				</tr>
-			</c:forEach>
 		</tbody>
 		</table>
 </div>

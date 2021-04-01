@@ -72,7 +72,7 @@ public class HalfMonthResults extends HttpServlet {
 			Map<String,String> map = new HashMap<String, String>();
 			map.put("hUnseimei", hfortuneNumName);
 			map.put("hWariai", hroundingPercent + "%");
-//			System.out.println(map.get("hUnseimei"));
+			System.out.println(map.get("hUnseimei"));
 //			System.out.println(map.get("hWariai"));
 			resultPercent.add(map);
 		}

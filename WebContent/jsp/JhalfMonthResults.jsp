@@ -130,7 +130,7 @@ tbody {
 	<table class=AllDataTable>
 		<thead>
 			<tr>
-			<c:forEach var="hPercent" items="${resultPercent}">
+			<c:forEach var="hPercent" items="${resultsPercentList}">
 				<th class="fixed01">
 				<c:out value="${hPercent.hUnseimei}" />
 				</th>

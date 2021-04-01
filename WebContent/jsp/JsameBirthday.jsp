@@ -26,18 +26,18 @@ html {
 	font-size: 62.5%; /*rem算出をしやすくするために*/
 }
 h2{
-font-size: 20px;
+font-size: 25px;
 margin-top: 90px;
-margin-left: 94px;
+margin-left: 60px;
 }
 
 table{
 	font-family: arial narrow;
-	font-size: 5px;
-	width: 1050px;
+	font-size: 15px;
+	width: 1100px;
 
 	margin-top: 100px;
-	margin-left: -280px;
+	margin-left: -330px;
 	border-collapse: collapse;
 	border-spacing: 0;
 }
@@ -55,6 +55,7 @@ tbody{
 }
 .fixed01{
 width: 300px;
+
 }
 
 <%--ヘッダー --%>

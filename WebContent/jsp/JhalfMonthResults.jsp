@@ -32,18 +32,7 @@ h2 {
 	margin-left: 150px;
 }
 
-.harfMonth {
-	font-size: 18px;
-	margin-top: 100px;
-	margin-left: -180px;
-}
-
-.today {
-	font-size: 18px;
-	margin-top: -188px;
-	margin-left: 300px;
-}
-
+<%--ボタン--%>
 .button, .btn, a.btn, button.btn {
 	font-size: 1.6rem;
 	font-weight: 700;
@@ -68,7 +57,7 @@ h2 {
 	font-family: arial narrow;
 }
 
-<%--ボタン--%>
+<%--ボタンデザイン--%>
 button.btn--green.btn--emboss {
 	color: #000000;
 	text-shadow: -1px -1px 1px 55d8ff;
@@ -85,39 +74,61 @@ button.btn--green.btn--cubic:hover {
 	margin-left: 150px;
 }
 
+<%--テーブルサイズ--%>
+table{
+	font-family: arial narrow;
+	font-size: 5px;
+	width: 1050px;
+	margin-top: 10px;
+	margin-left: -280px;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 <%--テーブルデザイン--%>
-.allData{
-	font-size: 18px;
-	margin-top: 10px;
-	margin-left: -440px;
-}
-
-.AllDataTable{
+.tableDesign{
 	table-layout: auto;
-	margin-top: 10px;
-	margin-left: -10px;
+	font-size: 20px;
 }
-
-.severalData{
-	font-size: 18px;
-	margin-top: 10px;
-	margin-left: -440px;
-}
-.severalDataTable{
-	table-layout: auto;
-	margin-top: 10px;
-	margin-left: -10px;
-}
-
 thead, tbody {
-	display: block;
+    display: block;
 }
-tbody {
-	overflow-y: scroll;
-	height: 200px;
+tbody{
+    height: 200px;
 }
-.fixed01 {
-	width: 300px;
+.fixed01{
+width: 300px;
+}
+
+<%--ヘッダー --%>
+.tableDesign thead th {
+	background:#C4A3BF;
+	font-weight: bold;
+	text-align: center;
+}
+
+<%--ボディ項目・フッター項目 --%>
+.tableDesign tbody th,
+.tableDesign tfoot th {
+	background:#FEEEED;
+}
+<%--ボディデータ・フッターデータ --%>
+.tableDesign tbody td,
+.tableDesign tfoot td {
+	text-align:center;
+}
+
+/* 偶数行 １行ごとの色変えが不要なら削除 */
+.tableDesign tr:nth-child(2n) td {
+    background: #C0C0C0;
+}
+/* 偶数行の項目 １行ごとの色変えが不要なら削除 */
+.tableDesign tr{
+    background: #FBFBF6;
+}
+
+.title{
+	font-size: 20px;
 }
 </style>
 </head>
@@ -125,9 +136,9 @@ tbody {
 <body>
 	<h2>各運勢の割合</h2>
 
-	<div class=allData>
+	<div class=title>
 		●過去半年の全体のおみくじ運勢結果の割合 <br>
-	<table class=AllDataTable>
+	<table class=tableDesign>
 		<thead>
 			<tr>
 			<c:forEach var="hPercent" items="${resultsPercentList}">
@@ -150,9 +161,9 @@ tbody {
 		</table>
 </div>
 
-		<div class=severalData>
+		<div class=title>
 			●本日の誕生日のおみくじ運勢結果の割合<br>
-		<table class=severalDataTable>
+		<table class=tableDesign>
 			<thead>
 				<tr>
 				<c:forEach var="percent" items="${resultsTodayList}">

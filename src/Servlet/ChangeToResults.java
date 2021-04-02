@@ -21,7 +21,8 @@ import DAO.ResultsDao;
 import List.CSVReader;
 
 /**
- * ●Servlet/JSP間の処理実装(メインメソッド)
+ * メソッドの説明：
+ * Servlet/JSP間の処理実装(メインメソッド)
  * Servlet implementation class ChangeToResults
  *
  * @author m_ochi
@@ -31,9 +32,7 @@ public class ChangeToResults extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		/**
-		 * Servlet画面で入力した誕生日を取得する
-		 */
+		/** Servlet画面で入力した誕生日を取得する*/
 		//HTML（サーブレット）から入力されたパラメータの値を取得
 		String birthday = request.getParameter("birthday");
 		request.setAttribute("birthday", birthday); //画面遷移１回で値が消滅する
@@ -44,115 +43,67 @@ public class ChangeToResults extends HttpServlet {
 		/**エラーメッセージの処理*/
 		//checkBirthday（入力チェックするメソッドで）対象の値が返ってきた時は、InputBirthdayクラスに戻ってエラーを画面に出す
 		List<String> ErrorMessageList = checkBirthday(birthday);
-		//ErrorMessageListにエラーが入っていれば、InputBirthdayに画面遷移とエラーメッセージを引き渡す
 		if (ErrorMessageList != null && ErrorMessageList.size() > 0) {
 			request.setAttribute("ErrorMessageList", ErrorMessageList);
 			request.getRequestDispatcher("/InputBirthday").forward(request, response);
 		} else {
 
-			/**
-			 * 今日の日付を取得する
-			 */
+			/**今日の日付を取得する */
 			Date date = new Date();
 			java.sql.Date resultsDate = convert(date);
 
-			/**
-			 * resultsテーブルから誕生日・本日の日付を条件にデータを取得する。
-			 * ●変数rbに入っているデータのomikuji_idを取得してデータがあればそのデータを出力する。
-			 * ResultsDaoのselectByBirthdayメソッドを呼び出して、取得した結果を変数rbに代入。
-			 * （=条件に一致しているデータがあれば、変数rbに代入されることになる
-			 * ＝その結果を出力すれば良いということになる）
+			/** resultsテーブルから「誕生日」と「本日の日付」を条件にomikujiIdを取得する。
+			 * １、データあり：取得したomikujiIdで出力
+			 * ２、データなし：これからおみくじを生成し、そのomikujiIdで出力
+			 *
 			 * @return resultsBean
 			 */
-			//
 			ResultsBean rb = ResultsDao.selectByBirthday(resultsDate, birthday);
 			String omikujiId = rb.getOmikujiId();
 			String path =this.getServletContext().getRealPath("/WEB-INF/fortuneTelling.csv");
-//<<<<<<< HEAD
-			//CSVReaderで使用できるように用意する
-//			String csvReader = CSVReader.readCsv(realPath);
-//			ServletContext sc =request.getContextPath();
-//			String realPath = this.getServletContext().getRealPath("WEB-INF/fortuneTelling.csv");
 
-//=======
-//>>>>>>> refs/remotes/origin/master
-			/**
-			 * resultsテーブルに入力した結果がない場合→おみくじを生成する
-			 * １、もしomikujiテーブルにデータがなければ、omikujiテーブルのデータを書き込むメソッドを呼ぶ
-			 * ２、omikujiテーブルのレコード数(sqlのcountを使用)でrandomの数字を取得
-			 * ２、⑤ー１、で出た数字をデータのomikuji_idを条件にして、SELECT文を使用してomikujiテーブル（fortuneテーブルも結合する）からデータを取得
-			 * ３、resultsテーブルに⑤ー２、で取得したデータを登録する（omikuji_id, results_date, birthday）
-			 * ４、コンソールに⑤−２、で取得したデータを出力する。
-			 */
+			/**新しくおみくじを生成してomikujiIdを取得する処理。*/
 			if (omikujiId == null) {
-
-				// もしomikujiテーブルにデータがなければ、omikujiテーブルのデータを書き込むメソッド(OmikujiDao.count())を呼ぶ
+				/**omikujiテーブルにデータが入っているかをチェックする処理。*/
+				// もしomikujiテーブルにデータがなければ、csvファイルを読み込んでomikujiテーブルのデータを書き込む処理。
 				int omikujiCnt = OmikujiDao.count();
 				if (omikujiCnt == 0) {
-//<<<<<<< HEAD
-
 					CSVReader.readCsv(path);
-
-//=======
-//					CSVReader.readCsv(path);
-//>>>>>>> refs/remotes/origin/master
-
-					// omikujiテーブルにデータを入れた後、もう一度omikujiテーブルのデータ数を数える。
 					omikujiCnt = OmikujiDao.count();
 				}
-
-				/**
-				 * Randomでomikuji_idを取得する
-				 */
+				/**Randomでomikuji_idを取得する処理。（omikuji_idの全IDをシャッフルする） */
 				Random random = new Random();
 				// DBの接続して、randomの引数をSQLのCountを使用して取得する
 				int randomValue = random.nextInt(omikujiCnt) + 1; // メソッドが０からカウントされるため、メソッド（）＋１をする
 				omikujiId = Integer.toString(randomValue);
-
-				/**
-				 * 取得したresults_date・omikuji_id・birthdayを動的にINSERTする
-				 */
-				// 取得したomikuji_id・birthday・results_dateをresultsテーブルにINSERTする
+				/** 新しく生成したおみくじ(results_date・omikuji_id・birthday)DBに登録する処理。*/
 				ResultsDao.insertResults(resultsDate, omikujiId, birthday);
 			}
 
-			/**
-			 * omikuji_idを条件にomikujiテーブルからデータを取得
-			 */
-			// omikuji_idを条件にomikujiテーブルからデータを取得
+			/**omikuji_idを条件にomikujiテーブルから占い結果を取得する処理。*/
 			OmikujiBean oi = OmikujiDao.selectByOmikuji(omikujiId);
-			//		System.out.println(oi.getFortune_name());
-			//jspで画面に出力する。
+
+			/**jspで画面に出力する。*/
 			request.setAttribute("results", oi);
 			request.getRequestDispatcher("/jsp/OmikujiResults.jsp").forward(request, response);
 		}
 	}
 
 	/**
-	 * ❷誕生日を求めるメソッド。
-	 * 入力チェックに引っかかればそのエラーが全てリストに詰められる
+	 * メソッドの説明：
+	 * 受け取った誕生日の値が正しいかどうかをチェックするメソッド。
+	 * １、入力された日付が８桁かのチェック
+	 * ２、存在する日付かどうかのチェック
 	 *
 	 * @return checkBirthday
 	 */
 	public static List<String> checkBirthday(String birthday) {
 		List<String> checkBirthday = new ArrayList<String>();
-
-		/**
-		 * ①入力チェックをする。
-		 * １、入力された日付が８桁以外の場合は、エラーメッセージを出力
-		 * ２、正しい年月日かどうか入力チェックする。
-		 */
-		// ①ー１、入力されたのが８桁かどうかをチェックする。
-		// ８桁以外が入力された場合
-		// →"例にの通り、８桁を入力してください。"と出力して、次の処理に行かずに誕生日の再入力を求める。
+		/**入力された日付が８桁かのチェック*/
 		if (birthday.length() != 8) {
-			//エラーメッセージがある場合に処理をする
 			checkBirthday.add("例の通り８桁を入力してください。");
 		}
-
-		// ①ー２、正しい年月日かどうかをチェックする。
-		// 正しい年月日でない場合
-		// →"正しい日付を入力してください。"を出力して、誕生日の再入力を求める。
+		/**存在する日付かどうかのチェック*/
 		// ↓日付や時刻を厳密にチェック（厳密にテェック＝存在しない日付を指定された場合、Exception を発生させること。）
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		format.setLenient(false); // Lenient(寛大)に処理を行うか聞かれているため、falseを入力する。
@@ -165,10 +116,11 @@ public class ChangeToResults extends HttpServlet {
 	}
 
 	/**
-	 * ●utilクラスのDate型からsqlクラスのDate型に変換するメソッド
-	 * （本日の日付を求めるため、utilクラスのDate型をDaoと同じsqlクラスのDate型に変更する必要があるため。）
+	 * メソッドの説明：
+	 * utilクラスのDate型からsqlクラスのDate型に変換するメソッド
+	 * （SQLで取得した本日の日付を使用するために、SQL使用できる型に変換する）
 	 *
-	 * @param uDate
+	 * @param java.util.Date utilDate
 	 * @return resultDate
 	 */
 	private static java.sql.Date convert(java.util.Date utilDate) {

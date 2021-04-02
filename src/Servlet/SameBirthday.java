@@ -23,37 +23,31 @@ public class SameBirthday extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		/**
-		 * ①今日の日付を取得
-		 */
+		/**今日の日付を取得する */
 		Date today = new Date();
-		java.sql.Date resultsDate = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
+		java.sql.Date resultsDate = convert(today);
 
-		/**
-		 * ②今日から半年前の日付を取得
-		 */
+		/**今日から半年前の日付を取得*/
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, -6);
 		today = calendar.getTime();
-		java.sql.Date sqlDate = convert(today); //spl文に対応したDate型に変換。(下記で定義しているconvertメソッドで)
+		java.sql.Date sqlDate = convert(today);
 
-		/**
-		 * ③いま占った誕生日を全て取得
-		 */
+		/**いま入力された誕生日の過去半年間の結果を取得*/
 		HttpSession session = request.getSession();
 		String birthday = (String) session.getAttribute("birthday");
-		List<ResultsBean> pastBirhdayResults = ResultsDao.pastBirhdayResults(sqlDate,
-				resultsDate, birthday);
+		List<ResultsBean> pastBirhdayResults = ResultsDao.pastBirhdayResults(sqlDate, resultsDate, birthday);
 
 		request.setAttribute("pastBirhdayResults", pastBirhdayResults);
 		request.getRequestDispatcher("/jsp/JsameBirthday.jsp").forward(request, response);
 	}
 
 	/**
-	 * ●utilクラスのDate型からsqlクラスのDate型に変換するメソッド
-	 * （本日の日付を求めるため、utilクラスのDate型をDaoと同じsqlクラスのDate型に変更する必要があるため。）
+	 * メソッドの説明：
+	 * utilクラスのDate型からsqlクラスのDate型に変換するメソッド
+	 * （SQLで取得した本日の日付を使用するために、SQL使用できる型に変換する）
 	 *
-	 * @param uDate
+	 * @param java.util.Date utilDate
 	 * @return resultDate
 	 */
 	private static java.sql.Date convert(java.util.Date utilDate) {

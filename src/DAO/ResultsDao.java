@@ -13,33 +13,31 @@ import Bean.ResultsBean;
 public class ResultsDao {
 
 	/**
-	 * ③resultsテーブルから誕生日・本日の日付を条件に一致したデータを取得するメソッド
+	 * メソッドの説明：
+	 * resultsテーブルから取得した『誕生日」と「本日」の日付を条件に一致したデータをDBから取得するメソッド
 	 *
 	 * @param resultsDate,birthday
 	 * @return resultsBean
 	 */
 	public static ResultsBean selectByBirthday(Date resultsDate, String birthday) {
-
 		Connection connection = null; // 特定のDBとの接続
 		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
 		ResultsBean resultsBean = new ResultsBean();
 		try {
-			/**
-			 * ①DBManagerのgetConnectionメソッドを呼び出してDBに接続。
-			 */
+			/**DBManagerのgetConnectionメソッドを呼び出してDBに接続。*/
 			connection = DBManager.getConnection();
 
 			/**
-			 * ②resultsテーブルから以下の２つを条件にデータを取得。 １、mainメソッドで取得した本日の日付（resultsDate）
-			 * ２、FortuneDriveのcheckBirthdayメソッドで取得した誕生日（birthday）
+			 * resultsテーブルから２つのデータを条件にDBからデータを取得する処理。
+			 * １、mainメソッドで取得した本日の日付（resultsDate）
+			 * ２、mainメソッドで入力画面から受け渡された誕生日（birthday）
 			 */
-			// ●変数sqlに条件検索できるようにSELECT文を代入
 			String sql = "SELECT results_date, omikuji_id, birthday, changer, update_date, author,create_date FROM results WHERE results_date = ? AND birthday = ?;";
-			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
-			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
+			// ●sqlに詰めたSELECT文をpreparedStatementに代入してjavaで動的に条件を変更できるようにする。
+			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO：PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			preparedStatement.setDate(1, resultsDate); // ②ー１
 			preparedStatement.setString(2, birthday); // ②ー２
-			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
+			// ●executeQueryメソッドを呼び出してSQLを実行する処理。
 			ResultSet resultSet = preparedStatement.executeQuery();
 			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
 			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
@@ -63,10 +61,10 @@ public class ResultsDao {
 	}
 
 	/**
-	 * ●result_date・omikuji_id・birthdayを動的に、その他のカラムは固定でINSERTするメソッド
+	 * メソッドの説明：
+	 * 新しく生成したおみくじをresultsテーブルに登録するメソッド。
 	 *
-	 * @param results_date,
-	 *            birthday, omikuji_id
+	 * @param resultsDate, omikujiId, birthday
 	 * @return resultsBean
 	 */
 	public static void insertResults(Date resultsDate, String omikujiId, String birthday) {
@@ -75,14 +73,13 @@ public class ResultsDao {
 		try {
 			// DBに接続する
 			connection = DBManager.getConnection();
-			// sqlにselect文を入れる
 			String sql = "INSERT INTO results(results_date, omikuji_id, birthday, changer, update_date, author, create_date) VALUES (?, ?, ?, '越智', CURRENT_TIMESTAMP, '越智', CURRENT_TIMESTAMP); ";
 			// PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setDate(1, resultsDate);
 			preparedStatement.setString(2, omikujiId);
 			preparedStatement.setString(3, birthday);
-			// resultsテーブルから値を取得
+			//SQL文を実行する処理。
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,32 +88,30 @@ public class ResultsDao {
 		}
 	}
 	/**
-	 * resultsテーブルから「今日から過去半年間のデータ」のデータ個数を取得するメソッド
+	 * メソッドの説明：
+	 * resultsテーブルから「今日から過去半年間」の「全データ数」を取得するメソッド
 	 *
-	 * @param receiveHalfMonthResultsDataNum
-	 * @return receiveHalfMonthResultsDataNum
+	 * @param sqlDate, resultsDate
+	 * @return receiveHalfMonthResultsData
 	 */
 	public static int receiveHalfMonthResultsData(Date sqlDate, Date resultsDate) {
-
 		Connection connection = null; // 特定のDBとの接続
 		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
 		int receiveHalfMonthResultsData = 0;
 		try {
 			// DBに接続する
 			connection = DBManager.getConnection();
-			// 本日から過去半年間のデータの個数を取得
+			//「今日から過去半年間のデータ」のデータ数を取得
 			String sql = "SELECT COUNT(*) AS receiveHalfMonthResultsDataNum FROM results WHERE results_date BETWEEN ? AND ?;";
-			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
+			// sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
 			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
-			preparedStatement.setDate(1, sqlDate); // ②ー１
-			preparedStatement.setDate(2, resultsDate); // ②ー２
-			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
+			preparedStatement.setDate(1, sqlDate);
+			preparedStatement.setDate(2, resultsDate);
+			// SQLを実行する処理。
 			ResultSet resultSet = preparedStatement.executeQuery();
-			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
-			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
+			// 結果をResultsBeanにsetしながら１行ずつ読み込む処理。
 			while (resultSet.next()) {
 				receiveHalfMonthResultsData = resultSet.getInt("receiveHalfMonthResultsDataNum");
-				System.out.println(receiveHalfMonthResultsData);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -170,31 +165,29 @@ public class ResultsDao {
 	}
 
 	/**
-	 * 上のメソッドで取得した誕生日を条件に、過去半年間の中から結果を取得
+	 * メソッドの説明：
+	 * いま入力された誕生日の過去半年間の結果を取得するメソッド
 	 *
-	 * @param pastBirthdayResultsList
+	 * @param sqlDate, resultsDate, birthday
 	 * @return pastBirthdayResultsList
 	 */
 	public static List<ResultsBean> pastBirhdayResults(Date sqlDate, Date resultsDate, String birthday) {
 		Connection connection = null; // 特定のDBとの接続
 		PreparedStatement ps = null; // SQL文がプレコンパイルされ、PreparedStatementに格納される。
-		//for文でlistからだす
-
 		List<ResultsBean> pastBirthdayResultsList = new ArrayList<ResultsBean>();
 		try {
 			// DBに接続する
 			connection = DBManager.getConnection();
-			// 本日から過去半年間のデータの個数を取得
+			// いま入力された同じ誕生日の過去半年間のデータを取得
 			String sql = "SELECT r.results_date, f.fortune_name, o.wish, o.business, o.study FROM  results r  LEFT OUTER JOIN omikuji o ON (r.omikuji_id = o.omikuji_id) LEFT OUTER JOIN fortune f ON (o.fortune_id = f.fortune_id) WHERE r.results_date BETWEEN ? AND ? AND r.birthday = ?;";
-			// ●sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
+			// sqlに詰めたSELECT文をpreparedStatementに代入して動的に条件を変更できるようにする。
 			PreparedStatement preparedStatement = connection.prepareStatement(sql); // MEMO:PreparedStatementは条件を動的にしてjavaで条件を自由に変更できる
 			preparedStatement.setDate(1, sqlDate);
 			preparedStatement.setDate(2, resultsDate);
 			preparedStatement.setString(3, birthday);
-			// ●executeQueryメソッドを呼び出してSELECT文を実行して、実行結果（=検索結果）をResultSet型の変数に代入
+			// SQLを実行する処理。
 			ResultSet resultSet = preparedStatement.executeQuery();
-			// ●変数resultSetに入っている実行結果をResultsBeanにsetしながら１行ずつ読み込む
-			// （=条件に一致しているデータがあれば、変数resultSetに代入されている）
+			//結果をResultsBeanにsetしながら１行ずつ読み込む
 			while (resultSet.next()) {
 				ResultsBean rb = new ResultsBean();
 				rb.setResultsDate(resultSet.getDate("results_date"));
@@ -213,6 +206,7 @@ public class ResultsDao {
 		}
 		return pastBirthdayResultsList;
 	}
+
 	/**
 	 * resultsテーブルから「今日から過去半年間のデータ」のデータ個数を取得するメソッド
 	 *

@@ -11,61 +11,30 @@ import java.sql.SQLException;
 import DAO.DBManager;
 
 /**
- * ●Fortune telling.csvをomikujiテーブルに読み込むメソッド
+ * メソッドの説明：
+ * 　fortuneTelling.csvをomikujiテーブルに登録するためのメソッド
  *
  * @author m_ochi
  *
  */
 public class CSVReader {
 	public static void readCsv(String path) throws IOException {
-		/**
-		 * ①Fortune telling.csvファイルを読み込んでomikujiテーブルに追加する。
-		 * １、JDBCを使用してDBに接続
-		 * ２、CSVファイルを読むためのクラスを呼び出す
-		 * ３、CSVファイルを１行ずつ読み込む
-		 * ４、SQLの実行（csvファイルで読み込んだデータをInsert文にセットしてomikujiテーブルに登録する処理。）
-		 */
-		//①−１、JDBCを使用してDBに接続
-		Connection connection = null;
+		Connection connection = null;// 特定のDBとの接続
 		try {
+			/**DBManagerのgetConnectionメソッドを呼び出してDBに接続。*/
 			connection = DBManager.getConnection();
-			//①ー２、csvファイルを読むクラスを呼び出す
-//<<<<<<< HEAD
-//<<<<<<< HEAD
 
+			/**csvファイルを読み込む処理。*/
+			//CSVファイルを１行ずつ読み込む
 			File file = new File(path);
-
-//			String path = sc.getRealPath("WEB-INF/fortuneTelling.csv");
-//>>>>>>> branch 'master' of https://github.com/MizukiOchi/office_training_Servlet_JSP.git
-//=======
-//<<<<<<< HEAD
-
-//			File file = new File(path);
-
-//			String path = sc.getRealPath("WEB-INF/fortuneTelling.csv");
-//=======
-//			@WebServlet("/CSVReader")
-//			//doGetとdoPostの両方を使用できるようにここで宣言
-//			public class CSVReader extends HttpServlet {
-//				protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//						throws ServletException, IOException {
-//					doPost(request, response);
-//				}
-//		    ServletContext sc =request.getContextPath();
-//			String path = sc.getRealPath("WEBINF/fortuneTelling.csv");
-//			File file = new File("/Applications/Eclipse_2019-09.app/Contents/workspace/office_training_Servlet_JSP/WebContent/WEB-INF/fortuneTelling.csv");
-//>>>>>>> branch 'master' of https://github.com/MizukiOchi/office_training_Servlet_JSP.git
-//>>>>>>> refs/remotes/origin/master
-			//①ー３、CSVファイルを１行ずつ読み込む
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String data = "";
 			int x = 1;
-			// contentsというString型の箱をwhile文の外で作成しておく（※箱は１つで良いため）
+			// ※箱は１つで良いためwhile文の外で作成しておく
 			String[] contents;
-			// CSVファイルの２行目から読み込む(不要な一行目をループ前に読み込んでいる。)
+			// 不要な一行目をループ前に読み込む処理。
 			bufferedReader.readLine(); //←１行ずつ読み込むメソッド
-
 			//読み込んだ値をセットするための変数を用意しておく。
 			int unsei = 0;
 			String wish = "";
@@ -74,18 +43,18 @@ public class CSVReader {
 			String ochi = "越智";
 
 			while ((data = bufferedReader.readLine()) != null) {
-				// csvファイルの値を分解する
+				/** csvファイルの値を分解する処理。*/
 				contents = data.split(",");
+				/**値をセットする処理。*/
 				//omikujiテーブルに代入するために値をセットする
-				unsei = JudgeUnseiCode(contents[0]); //←JudgeUnseiCodeメソッドで文字列をswitch文を利用して数字に変換したものを使用。（fortune_idと紐づけるため。）
+				unsei = JudgeUnseiCode(contents[0]); //←omikujiテーブルのfortune_idと紐づけるために文字列を数字に変換する必要がある。
 				wish = contents[1];
 				business = contents[2];
 				study = contents[3];
 
-				//SQLの実行（csvファイルで読み込んだデータをInsert文にセットしてomikujiテーブルに登録する処理。）
-				//DBに書き込むSQL文を変数sqlに代入する。
+				/**csvファイルで読み込んだデータをomikujiテーブルに登録する処理。*/
 				String sql = "INSERT INTO omikuji(omikuji_id,fortune_id, wish, business, study, changer, update_date, author, create_date) values (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp);";
-				//動的に値をセットできるメソッドを呼び出す。
+				//javaで動的に値をセットする処理。
 				PreparedStatement ps = connection.prepareStatement(sql);
 				//登録するSQL文を動的にsetする
 				ps.setInt(1, x++);
@@ -95,7 +64,7 @@ public class CSVReader {
 				ps.setString(5, study);
 				ps.setString(6, ochi);
 				ps.setString(7, ochi);
-				//SQL文を実行するメソッドを呼び出す。
+				//SQL文を実行するメソッド。
 				ps.executeUpdate(); //※executeUpdate()メソッドは、DBに登録・更新・削除をする際に使用するメソッド。
 			}
 			bufferedReader.close();
@@ -105,12 +74,12 @@ public class CSVReader {
 	}
 
 /**
- * ●CSVファイルから読み込んだ文字列（fortune_name:大吉・中吉など）をfortune_idの数字に変換するメソッド
- * （CSVファイルとomikujiテーブルのfortune_idとfortuneテーブルのfortune_idとを紐づけるため。）
+ * メソッドの説明：
+ * CSVファイルから読み込んだ文字列（fortune_name:大吉・中吉など）をfortune_idの数字に変換するメソッド
+ * （例：大吉の場合 → １）
  * @param s
  * @return unsei
  */
-	// fortune_idを文字から数字に割り当てたメソッド（例：大吉の場合 → １）
 	private static int JudgeUnseiCode(String s) {
 		int unsei = 0;
 		// fortune_idにつける番号をswitch文を使用して割り当てる。

@@ -126,7 +126,7 @@ public class InputBirthday extends HttpServlet {
 		/**↑↑↑デザイン終了↑↑↑*/
 
 		/** ↓↓↓画面表示の内容↓↓↓ */
-		out.println("<bady>");
+		out.println("<body>");
 		out.println("<h3 id=\"title\">おみくじ</h3>");
 		out.println("<div class=\"InputBirthday\">");
 		out.println("<p class=\"explain\">Input Your Birthday Here↓</p>");
